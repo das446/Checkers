@@ -10,7 +10,6 @@ namespace CheckersLogic {
 
 		public Player(Piece.PieceType c){
 			color = c;
-			
 		}
 
 

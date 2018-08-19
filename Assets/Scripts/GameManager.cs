@@ -14,12 +14,18 @@ namespace CheckersLogic {
             return manager;
         }
 
+        /// <summary>
+        /// Moves the piece
+        /// </summary>
+        /// <param name="move"></param>
+        /// <returns>Whether the move was valid</returns>
         public bool move(Move move) {
             Piece piece = gameBoard.getPiece(move.from.row, move.from.col);
             if (piece.getColor() != currentPlayer.color) {
                 return false;
             }
             gameBoard.applyMove(move);
+            if(gameBoard.get)
             currentPlayer = currentPlayer == player1? player2 : player1;
             return true;
         }

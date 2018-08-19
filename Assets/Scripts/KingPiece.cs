@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CheckersLogic {
 	public class KingPiece : Piece {
 
-		public KingPiece(Piece piece) {
+		public KingPiece(Piece piece) {//Why doesn't this work?
 			this.row = piece.row;
 			this.col = piece.col;
 			if (piece.type == Piece.PieceType.BLACK) {
@@ -17,7 +17,7 @@ namespace CheckersLogic {
 			}
 		}
 
-		public List<Move> ValidMoves(Board b) {
+		public new List<Move> ValidMoves(Board b) {
 			List<Move> Moves = new List<Move>();
 			//Black
 			if (getColor() == PieceType.BLACK) {

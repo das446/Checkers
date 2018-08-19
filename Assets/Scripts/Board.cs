@@ -1,10 +1,16 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CheckersLogic {
   public class Board {
     private Tile[, ] board = new Tile[8, 8];
+    public Position lastMovedPiece;
     public Board() {
       resetBoard();
+    }
+
+    public Piece lastMoved(){
+      return board[lastMovedPiece.row,lastMovedPiece.col].getPiece();
     }
 
     public void resetBoard() {
@@ -64,6 +70,7 @@ namespace CheckersLogic {
       if(move.jump){
         board[move.over.row,move.over.col].RemovePiece();
       }
+      lastMovedPiece = move.to;
       KingMe(move.to);
     }
 
@@ -95,6 +102,11 @@ namespace CheckersLogic {
           }
         }
       }
+      if(moves.Any(move=>move.jump))
+      {
+        moves = moves.Where(move=>move.jump).ToList();
+      }
+
       return moves;
     }
 
