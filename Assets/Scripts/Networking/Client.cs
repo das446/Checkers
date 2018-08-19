@@ -69,7 +69,7 @@ namespace Checkers.Network
             }
             catch (Exception e)
             {
-                GameManager.debug("Socket Error : " + e.Message);
+                NetworkManager.debug("Socket Error : " + e.Message);
             }
 
             return socketReady;
@@ -95,7 +95,7 @@ namespace Checkers.Network
 
 
                 case "Test":
-                    GameManager.debug("Recieved Response From Server");
+                    NetworkManager.debug("Recieved Response From Server");
                     break;
 
 
@@ -159,16 +159,16 @@ namespace Checkers.Network
             GameClient c = new GameClient();
             c.name = Name;
             Players.Add(c);
-            if (!GameManager.Instance.Clients.Any(x => x.clientName == Name))
+            if (!NetworkManager.Instance.Clients.Any(x => x.clientName == Name))
             {
-                Client C = Instantiate(GameManager.Instance.clientPrefab).GetComponent<Client>();
+                Client C = Instantiate(NetworkManager.Instance.clientPrefab).GetComponent<Client>();
                 C.clientName = Name;
                 C.name = Name;
-                GameManager.Instance.Clients.Add(C);
+                NetworkManager.Instance.Clients.Add(C);
             }
             if (Players.Count == 2)
             {
-                GameManager.Instance.StartGame();
+                NetworkManager.Instance.StartGame();
             }
         }
 

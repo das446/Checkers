@@ -105,6 +105,10 @@ namespace CheckersLogic {
       if(moves.Any(move=>move.jump))
       {
         moves = moves.Where(move=>move.jump).ToList();
+
+        if(moves.Any(move =>  lastMovedPiece == move.to)){
+          
+        }
       }
 
       return moves;

@@ -10,9 +10,9 @@ using System.Linq;
 
 namespace Checkers.Network
 {
-    public class GameManager : MonoBehaviour
+    public class NetworkManager : MonoBehaviour
     {
-        public static GameManager Instance { get; set; }
+        public static NetworkManager Instance { get; set; }
 
         public string ClientName;
 
@@ -40,7 +40,7 @@ namespace Checkers.Network
             connectMenu.SetActive(false);
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(DebugText.gameObject.transform.parent.gameObject);
-            ClientName = PlayerPrefs.GetString("Player1Name");
+
         }
 
         void Update(){
@@ -57,7 +57,7 @@ namespace Checkers.Network
             mainMenu.SetActive(false);
             connectMenu.SetActive(true);
             string lastHost=PlayerPrefs.GetString("LastIP","127.0.0.1");
-            GameObject.Find("HostInput").GetComponent<InputField>().text=lastHost;
+            GameObject.Find("IP Address Textbox").GetComponent<InputField>().text=lastHost;
 
         }
         public void HostButton()
@@ -72,9 +72,9 @@ namespace Checkers.Network
                 Client c = Instantiate(clientPrefab).GetComponent<Client>();
                 Clients.Add(c);
                 c.clientName = ClientName;
-                if (c.clientName == "") { c.clientName = "Host"; }
+                c.clientName = "Player1";
                 c.ConnectToServer(LocalIPAddress().ToString(), portNumber);
-				IP.text="Waiting for another player...\nYoure IP is "+	LocalIPAddress().ToString();
+				IP.text=LocalIPAddress().ToString();
             }
             catch (Exception e)
             {
@@ -87,7 +87,7 @@ namespace Checkers.Network
 
         public void ConnectToServerButton()
         {
-            string hostAdress = GameObject.Find("HostInput").GetComponent<InputField>().text;
+            string hostAdress = GameObject.Find("IP Address Textbox").GetComponent<InputField>().text;
             if (hostAdress == "")
             {
                 hostAdress = "127.0.0.1";
@@ -97,7 +97,7 @@ namespace Checkers.Network
             {
                 PlayerPrefs.SetString("LastIP",hostAdress);
                 Client c = Instantiate(clientPrefab).GetComponent<Client>();
-                c.clientName = ClientName;
+                c.clientName = "Player2";
                 Clients.Add(c);
                 c.ConnectToServer(hostAdress, portNumber);
                 ConnectingText.SetActive(true);

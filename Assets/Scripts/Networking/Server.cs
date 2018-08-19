@@ -37,7 +37,7 @@ namespace Checkers.Network {
                 StartListening();
                 ServerStarted = true;
             } catch (Exception e) {
-                GameManager.debug("Socket Error: " + e.Message);
+                NetworkManager.debug("Socket Error: " + e.Message);
             }
         }
 
@@ -109,7 +109,7 @@ namespace Checkers.Network {
                     writer.WriteLine(data);
                     writer.Flush();
                 } catch (Exception e) {
-                    GameManager.debug("Write Error : " + e.Message);
+                    NetworkManager.debug("Write Error : " + e.Message);
                 }
             }
         }

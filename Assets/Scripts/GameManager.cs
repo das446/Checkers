@@ -25,7 +25,6 @@ namespace CheckersLogic {
                 return false;
             }
             gameBoard.applyMove(move);
-            if(gameBoard.get)
             currentPlayer = currentPlayer == player1? player2 : player1;
             return true;
         }

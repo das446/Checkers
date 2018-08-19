@@ -660,7 +660,7 @@ PlayerSettings:
   cloudServicesEnabled:
     UNet: 1
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 2
+  apiCompatibilityLevel: 3
   cloudProjectId: 4b72171d-f1ce-4b36-a60f-31c3c67fb5ad
   projectName: Checkers
   organizationId: david-saks

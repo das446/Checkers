@@ -36,7 +36,7 @@ namespace CheckersLogic {
     public void KingMe(Board b) {
       if (type == PieceType.BLACK) {
         type = PieceType.BLACK_KING;
-        b.getTile(row, col).SetPiece(new KingPiece(this));
+        b.getTile(row, col).SetPiece(new KingPiece(row,col,type));
       } else if (type == PieceType.WHITE) {
         type = PieceType.WHITE_KING;
       }

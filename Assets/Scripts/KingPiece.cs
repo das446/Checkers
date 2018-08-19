@@ -4,20 +4,22 @@ using UnityEngine;
 
 namespace CheckersLogic {
 	public class KingPiece : Piece {
-
-		public KingPiece(Piece piece) {//Why doesn't this work?
-			this.row = piece.row;
-			this.col = piece.col;
-			if (piece.type == Piece.PieceType.BLACK) {
+        public KingPiece(int row, int col, PieceType type) : base(row, col, type)
+        {
+			this.row = row;
+			this.col = col;
+			if (type == Piece.PieceType.BLACK) {
 				type = Piece.PieceType.BLACK_KING;
-			} else if (piece.type == Piece.PieceType.WHITE) {
+			} else if (type == Piece.PieceType.WHITE) {
 				type = Piece.PieceType.WHITE_KING;
 			} else {
-				type = piece.type;
+				this.type = type;
 			}
-		}
+        }
 
-		public new List<Move> ValidMoves(Board b) {
+		
+
+        public new List<Move> ValidMoves(Board b) {
 			List<Move> Moves = new List<Move>();
 			//Black
 			if (getColor() == PieceType.BLACK) {
