@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace CheckersLogic {
-  public class Board {
+  public class Board : MonoBehaviour {
     private Tile[, ] board = new Tile[8, 8];
     public Position lastMovedPiece;
     public Board() {

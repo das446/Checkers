@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace CheckersLogic {
-	public class Tile {
+	public class Tile : MonoBehaviour{
 
 		Piece piece;
-		int row,col;
+		public int row,col;
 		Color color;
 
 		public Tile(int row,int col, Piece piece){
