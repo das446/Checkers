@@ -46,6 +46,10 @@ namespace Checkers.Network {
                 return;
             }
 
+            if(clients.Count==2&&NetworkManager.Instance.gameStarted==false){
+              NetworkManager.Instance.StartGame();  
+            }
+
             for (int i = 0; i < clients.Count; i++) {
                 ServerClient c = clients[i];
                 if (!IsConnected(c.tcp)) {
@@ -87,6 +91,12 @@ namespace Checkers.Network {
             StartListening();
 
             Broadcast("SWHO|" + clients[0].ClientName, clients[clients.Count - 1]);
+            
+
+            if(NetworkManager.Instance.gameStarted==false && clients.Count==2){
+                NetworkManager.Instance.StartGame();
+                NetworkManager.debug("Start Game");
+            }
         }
 
         bool IsConnected(TcpClient c) {
@@ -103,6 +113,7 @@ namespace Checkers.Network {
         }
 
         void Broadcast(string data, List<ServerClient> cl) {
+             NetworkManager.debug("Server Broadcast| "+data);
             foreach (ServerClient sc in cl) {
                 try {
                     StreamWriter writer = new StreamWriter(sc.tcp.GetStream());

@@ -66,6 +66,8 @@ namespace Checkers.Network
                 this.host=host;
                 this.port=port;
 
+                NetworkManager.debug(clientName+" connected");
+
             }
             catch (Exception e)
             {

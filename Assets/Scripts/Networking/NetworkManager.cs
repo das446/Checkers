@@ -33,6 +33,8 @@ namespace Checkers.Network
 
         public List<Client> Clients;
 
+        public bool gameStarted = false;
+
         void Start()
         {
             Instance = this;
@@ -135,6 +137,7 @@ namespace Checkers.Network
         public void StartGame()
         {
             SceneManager.LoadScene(3);
+            gameStarted = true;
         }
 
         public static void debug(string s)
