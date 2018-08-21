@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace CheckersLogic {
 
-  public class Piece {
+  public class Piece : MonoBehaviour{
 
     public int row, col;
 
