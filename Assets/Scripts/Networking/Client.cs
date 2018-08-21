@@ -1,16 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
-using System.Net.Sockets;
-using System;
 using System.Linq;
+using System.Net.Sockets;
+using UnityEngine;
 
-
-namespace Checkers.Network
-{
-    public class Client : MonoBehaviour
-    {
+namespace Checkers.Network {
+    public class Client : MonoBehaviour {
 
         bool socketReady;
         public string clientName;
@@ -23,69 +20,60 @@ namespace Checkers.Network
         public Client Opponent;
         string host;
         int port;
+        public bool GameStarted;
 
-        void Start()
-        {
+        void Start() {
             DontDestroyOnLoad(gameObject);
         }
 
-        void Update()
-        {
-            if (socketReady)
-            {
-                if (stream.DataAvailable)
-                {
+        void Update() {
+            if (socketReady) {
+                if (stream.DataAvailable) {
                     string data = reader.ReadLine();
-                    if (data != null)
-                    {
+                    if (data != null) {
                         OnIncomingData(data);
                     }
                 }
             }
-            if (!socket.Connected)
-            {
-                ConnectToServer(host,port);
+            if (socket != null) {
+                if (!socket.Connected) {
+                    ConnectToServer(host, port);
+                }
             }
-            
-            
+
         }
 
-        public bool ConnectToServer(string host, int port)
-        {
+        public bool ConnectToServer(string host, int port) {
             if (socketReady) { return false; }
 
-            try
-            {
-                socket=null;
+            try {
+                socket = null;
                 socket = new TcpClient(host, port);
                 stream = socket.GetStream();
                 writer = new StreamWriter(stream);
                 reader = new StreamReader(stream);
 
                 socketReady = true;
-                this.host=host;
-                this.port=port;
+                this.host = host;
+                this.port = port;
 
-                NetworkManager.debug(clientName+" connected");
+                NetworkManager.debug(clientName + " connected");
 
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 NetworkManager.debug("Socket Error : " + e.Message);
             }
 
             return socketReady;
         }
 
-        void OnIncomingData(string data)
-        {
+        void OnIncomingData(string data) {
+            NetworkManager.debug("Client Incoming " + data);
+
             string[] aData = data.Split('|');
 
-            switch (aData[0])
-            {
+            switch (aData[0]) {
                 case "SWHO":
-                    for (int i = 1; i < aData.Length; i++)
-                    {
+                    for (int i = 1; i < aData.Length; i++) {
                         UserConnected(aData[i], false);
                     }
                     Send("CWHO|" + clientName);
@@ -95,34 +83,36 @@ namespace Checkers.Network
                     UserConnected(aData[1], true);
                     break;
 
-
                 case "Test":
                     NetworkManager.debug("Recieved Response From Server");
                     break;
 
-
                 case "Disconnect":
                     UserDisconnected(aData[1]);
+                    break;
+
+                case "Start":
+                    if (NetworkManager.Instance.gameStarted) { return; }
+                    Debug.Log("Start");
+                    NetworkManager.Instance.StartGame();
+                    GameStarted = true;
+                    Send("Started|" + clientName);
                     break;
 
                 default:
                     break;
             }
         }
-        public void Send(string data)
-        {
-            if (!socketReady)
-            {
+        public void Send(string data) {
+            if (!socketReady) {
                 return;
             }
             writer.WriteLine(data);
             writer.Flush();
         }
 
-        public void CloseSocket()
-        {
-            if (!socketReady)
-            {
+        public void CloseSocket() {
+            if (!socketReady) {
                 return;
             }
 
@@ -132,70 +122,58 @@ namespace Checkers.Network
             socketReady = false;
         }
 
-        void OnIncominngData(ServerClient c, string data)
-        {
+        void OnIncominngData(ServerClient c, string data) {
             OnIncomingData(data);
         }
 
-        public IEnumerator RequestUntil(Func<bool> condition, string msg)
-        {
-            while (!condition())
-            {
+        public IEnumerator RequestUntil(Func<bool> condition, string msg) {
+            while (!condition()) {
                 Send(msg);
                 yield return new WaitForSeconds(1);
             }
         }
 
-        public IEnumerator RequestWhile(Func<bool> condition, string msg)
-        {
-            while (condition())
-            {
+        public IEnumerator RequestWhile(Func<bool> condition, string msg) {
+            while (condition()) {
                 Send(msg);
                 yield return new WaitForSeconds(1);
             }
         }
 
-        void UserConnected(string Name, bool Host)
-        {
+        void UserConnected(string Name, bool Host) {
             if (Name == "" || Players.Any(x => x.name == Name)) { return; }
             GameClient c = new GameClient();
             c.name = Name;
             Players.Add(c);
-            if (!NetworkManager.Instance.Clients.Any(x => x.clientName == Name))
-            {
+            if (!NetworkManager.Instance.Clients.Any(x => x.clientName == Name)) {
                 Client C = Instantiate(NetworkManager.Instance.clientPrefab).GetComponent<Client>();
                 C.clientName = Name;
                 C.name = Name;
                 NetworkManager.Instance.Clients.Add(C);
             }
-            if (Players.Count == 2)
-            {
+            if (Players.Count == 2) {
                 NetworkManager.Instance.StartGame();
             }
         }
 
-        void OnApplicationQuit()
-        {
+        void OnApplicationQuit() {
             CloseSocket();
         }
 
-        void OnDisable()
-        {
+        void OnDisable() {
             CloseSocket();
         }
-        void OnDestroy()
-        {
+        void OnDestroy() {
             CloseSocket();
         }
 
-        void UserDisconnected(string Name){
-            Debug.Log(Name+" Disconnected");
+        void UserDisconnected(string Name) {
+            Debug.Log(Name + " Disconnected");
         }
-        
+
     }
 
-    public class GameClient
-    {
+    public class GameClient {
         public string name;
         public bool isHost;
     }

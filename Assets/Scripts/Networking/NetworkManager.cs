@@ -1,17 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
-using System;
-using UnityEngine.SceneManagement;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Linq;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-namespace Checkers.Network
-{
-    public class NetworkManager : MonoBehaviour
-    {
+namespace Checkers.Network {
+    public class NetworkManager : MonoBehaviour {
         public static NetworkManager Instance { get; set; }
 
         public string ClientName;
@@ -29,44 +27,40 @@ namespace Checkers.Network
         public static int portNumber = 6321;
 
         public Text DebugText;
-		public Text IP;
+        public Text IP;
 
         public List<Client> Clients;
 
         public bool gameStarted = false;
 
-        void Start()
-        {
+        void Start() {
             Instance = this;
             serverMenu.SetActive(false);
             connectMenu.SetActive(false);
             DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(DebugText.gameObject.transform.parent.gameObject);
+            //DontDestroyOnLoad(DebugText.gameObject.transform.parent.gameObject);
 
         }
 
-        void Update(){
+        void Update() {
             Event e = Event.current;
-            if(e==null){return;}
-            if (!e.isKey) {return;}
-            if(e.keyCode==KeyCode.Return&&GameObject.Find("HostInput").activeSelf){
+            if (e == null) { return; }
+            if (!e.isKey) { return; }
+            if (e.keyCode == KeyCode.Return && GameObject.Find("HostInput").activeSelf) {
                 ConnectButton();
             }
         }
 
-        public void ConnectButton()
-        {
+        public void ConnectButton() {
             mainMenu.SetActive(false);
             connectMenu.SetActive(true);
-            string lastHost=PlayerPrefs.GetString("LastIP","127.0.0.1");
-            GameObject.Find("IP Address Textbox").GetComponent<InputField>().text=lastHost;
+            string lastHost = PlayerPrefs.GetString("LastIP", "127.0.0.1");
+            GameObject.Find("IP Address Textbox").GetComponent<InputField>().text = lastHost;
 
         }
-        public void HostButton()
-        {
+        public void HostButton() {
 
-            try
-            {
+            try {
                 Server s = Instantiate(serverPrefab).GetComponent<Server>();
                 s.Init();
                 server = s;
@@ -76,10 +70,8 @@ namespace Checkers.Network
                 c.clientName = ClientName;
                 c.clientName = "Player1";
                 c.ConnectToServer(LocalIPAddress().ToString(), portNumber);
-				IP.text=LocalIPAddress().ToString();
-            }
-            catch (Exception e)
-            {
+                IP.text = LocalIPAddress().ToString();
+            } catch (Exception e) {
                 debug(e.Message);
             }
 
@@ -87,46 +79,39 @@ namespace Checkers.Network
             serverMenu.SetActive(true);
         }
 
-        public void ConnectToServerButton()
-        {
+        public void ConnectToServerButton() {
             string hostAdress = GameObject.Find("IP Address Textbox").GetComponent<InputField>().text;
-            if (hostAdress == "")
-            {
+            if (hostAdress == "") {
                 hostAdress = "127.0.0.1";
             }
 
-            try
-            {
-                PlayerPrefs.SetString("LastIP",hostAdress);
+            try {
+                PlayerPrefs.SetString("LastIP", hostAdress);
                 Client c = Instantiate(clientPrefab).GetComponent<Client>();
                 c.clientName = "Player2";
                 Clients.Add(c);
                 c.ConnectToServer(hostAdress, portNumber);
-                ConnectingText.SetActive(true);
-                connectMenu.SetActive(false);
-            }
-            catch (Exception e)
-            {
+                //ConnectingText.SetActive(true);
+                //connectMenu.SetActive(false);
+                StartGame();
+            } catch (Exception e) {
                 debug(e.Message);
             }
         }
-        public void BackButton()
-        {
+        public void BackButton() {
             mainMenu.SetActive(true);
             serverMenu.SetActive(false);
             connectMenu.SetActive(false);
             ConnectingText.SetActive(false);
 
             Server s = FindObjectOfType<Server>();
-            if (s != null)
-            {
+            if (s != null) {
                 server = null;
                 Destroy(s.gameObject);
             }
 
             Client c = FindObjectOfType<Client>();
-            if (c != null)
-            {
+            if (c != null) {
                 Clients.Remove(c);
                 c.CloseSocket();
                 Destroy(c.gameObject);
@@ -134,27 +119,30 @@ namespace Checkers.Network
 
         }
 
-        public void StartGame()
-        {
-            SceneManager.LoadScene(3);
+        public void StartGame() {
+            if (gameStarted) { return; }
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
             gameStarted = true;
+            DebugText = GameObject.Find("Debug").GetComponent<Text>();
         }
 
-        public static void debug(string s)
-        {
+        public static void debug(string s) {
+            if (Instance.DebugText == null) {
+                Instance.DebugText = GameObject.Find("Debug").GetComponent<Text>();
+            }
             Instance.DebugText.text += s + "\n";
-			Instance.Invoke("ClearDebug",10);
+            Instance.Invoke("ClearDebug", 10);
         }
 
-		public void ClearDebug(){
-			Instance.DebugText.text="";
-		}
+        public void ClearDebug() {
+            if (Instance.DebugText == null) {
+                Instance.DebugText = GameObject.Find("Debug").GetComponent<Text>();
+            }
+            Instance.DebugText.text = "";
+        }
 
-
-		private IPAddress LocalIPAddress()
-        {
-            if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
-            {
+        private IPAddress LocalIPAddress() {
+            if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable()) {
                 return null;
             }
 
@@ -164,8 +152,6 @@ namespace Checkers.Network
                 .AddressList
                 .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
         }
-
-
 
     }
 }

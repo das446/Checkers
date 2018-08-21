@@ -47,7 +47,7 @@ namespace Checkers.Network {
             }
 
             if(clients.Count==2&&NetworkManager.Instance.gameStarted==false){
-              NetworkManager.Instance.StartGame();  
+              Broadcast("Start",clients);  
             }
 
             for (int i = 0; i < clients.Count; i++) {
