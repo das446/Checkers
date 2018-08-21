@@ -25,7 +25,9 @@ namespace CheckersLogic {
                 return false;
             }
             gameBoard.applyMove(move);
-            currentPlayer = currentPlayer == player1? player2 : player1;
+            if(gameBoard.lastMoved().ValidMoves(gameBoard).Count==0){
+                currentPlayer = currentPlayer == player1? player2 : player1;
+            }
             return true;
         }
 
