@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 namespace CheckersLogic {
@@ -133,6 +134,5 @@ namespace CheckersLogic {
       b.UpdateGlow(tiles);
       GameManager.manager.selectedPiece = this;
     }
-
   }
 }
