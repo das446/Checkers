@@ -7,9 +7,11 @@ namespace CheckersLogic {
         private Player player1, player2;
         private Player currentPlayer;
         public Piece selectedPiece;
-        public static GameManager manager = new GameManager();
+        public static GameManager manager;
         void Start() {
+            manager = this;
             gameBoard = GameObject.FindObjectOfType<Board>();
+            Debug.Log(gameBoard.name);
             currentPlayer = player1;
         }
         public static GameManager getInstance() {
