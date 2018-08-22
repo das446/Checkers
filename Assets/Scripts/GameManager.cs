@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace CheckersLogic {
-    class GameManager {
-        private Board gameBoard { get; }
+    public class GameManager:MonoBehaviour {
+        public Board gameBoard;
         private Player player1, player2;
         private Player currentPlayer;
-        private static GameManager manager = new GameManager();
-        private GameManager() {
-            gameBoard = new Board();
+        public static GameManager manager = new GameManager();
+        void Start() {
+            gameBoard = GameObject.FindObjectOfType<Board>();
             currentPlayer = player1;
         }
         public static GameManager getInstance() {
@@ -28,6 +29,8 @@ namespace CheckersLogic {
             if(gameBoard.lastMoved().ValidMoves(gameBoard).Count==0){
                 currentPlayer = currentPlayer == player1? player2 : player1;
             }
+            //CheckAnyValid()
+            //CheckWin()
             return true;
         }
 

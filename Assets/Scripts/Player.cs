@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace CheckersLogic {
 	public class Player {
@@ -18,6 +19,10 @@ namespace CheckersLogic {
 			return board.GetPieces(color);
 			
 		}
+
+		public List<Move> ValidMoves(){
+			Board board = GameManager.manager.gameBoard;
+			return board.getMovesByColor(color);
 
 	}
 }

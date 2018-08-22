@@ -147,14 +147,12 @@ namespace Checkers.Network {
                 case "Test":
                     Broadcast("Test|" + aData[1], byName(aData[1]));
                     break;
-                case "Select":
-                    Broadcast("Selected|" + aData[1] + "|" + aData[2], ClientsExcept(aData[1]));
+                case "Move":
+                    Broadcast("",clients);
                     break;
-                case "SetGhost":
-                    Broadcast("SetGhost|" + aData[2] + "|" + aData[3], ClientsExcept(aData[1]));
-                    break;
-                case "GhostRot":
-                    Broadcast("GhostRot", ClientsExcept(aData[1]));
+                
+                case "Restart":
+                    Broadcast("",clients);
                     break;
 
                 default:

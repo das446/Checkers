@@ -128,7 +128,7 @@ namespace Checkers.Network {
 
         public static void debug(string s) {
             if (Instance.DebugText == null) {
-                Instance.DebugText = GameObject.Find("Debug").GetComponent<Text>();
+                Instance.DebugText = GameObject.Find("Debug")?.GetComponent<Text>();
             }
             Instance.DebugText.text += s + "\n";
             Instance.Invoke("ClearDebug", 10);
@@ -136,7 +136,7 @@ namespace Checkers.Network {
 
         public void ClearDebug() {
             if (Instance.DebugText == null) {
-                Instance.DebugText = GameObject.Find("Debug").GetComponent<Text>();
+                Instance.DebugText = GameObject.Find("Debug")?.GetComponent<Text>();
             }
             Instance.DebugText.text = "";
         }

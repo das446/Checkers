@@ -21,6 +21,10 @@ namespace CheckersLogic {
 			this.piece = new Piece(row,col,type);
 		}
 
+		void Start(){
+			name = "Tile "+row+","+col;
+		}
+
 		public Piece.PieceType GetPieceType(){
 			if(piece == null){
 				return Piece.PieceType.EMPTY;

@@ -107,8 +107,8 @@ namespace CheckersLogic {
       {
         moves = moves.Where(move=>move.jump).ToList();
 
-        if(moves.Any(move =>  lastMovedPiece == move.to)){
-          
+        if(moves.Any(move => lastMovedPiece == move.to)){
+          moves = moves.Where(move => lastMovedPiece == move.from).ToList();
         }
       }
 
@@ -130,9 +130,10 @@ namespace CheckersLogic {
     }
 
     private void addMoves(int row, int col, List<Move> moves) {
-      //Kings can return from the top edge
       List<Move> newMoves = getTile(row,col).getPiece().ValidMoves(this);
       moves.AddRange(newMoves);
+
+
     }
     public override string ToString() {
       string board = "";
