@@ -10,7 +10,11 @@ namespace CheckersLogic {
 
     private void Start()
     {
-        string TileToFind = "Tile " + row + "," + col;
+       Invoke("LateStart",1);
+    }
+
+    void LateStart(){
+       string TileToFind = "Tile " + row + "," + col;
         Tile ownTile = GameObject.Find(TileToFind).GetComponent<Tile>();
         ownTile.piece = this;
     }
@@ -52,6 +56,7 @@ namespace CheckersLogic {
     }
 
     public List<Move> ValidMoves() {
+      Debug.Log(GameManager.manager.gameBoard);
       return ValidMoves(GameManager.manager.gameBoard);
     }
 
@@ -61,6 +66,8 @@ namespace CheckersLogic {
       if (getColor() == PieceType.RED) {
 
         //UpRight
+
+        
 
         if (b.getPiece(row - 1, col - 1).getColor() == PieceType.EMPTY) {
           Position from = new Position(row, col);
