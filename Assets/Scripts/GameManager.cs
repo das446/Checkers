@@ -2,10 +2,11 @@
 using UnityEngine;
 
 namespace CheckersLogic {
-    public class GameManager:MonoBehaviour {
+    public class GameManager : MonoBehaviour {
         public Board gameBoard;
         private Player player1, player2;
         private Player currentPlayer;
+        public Piece selectedPiece;
         public static GameManager manager = new GameManager();
         void Start() {
             gameBoard = GameObject.FindObjectOfType<Board>();
@@ -26,7 +27,7 @@ namespace CheckersLogic {
                 return false;
             }
             gameBoard.applyMove(move);
-            if(gameBoard.lastMoved().ValidMoves(gameBoard).Count==0){
+            if (gameBoard.lastMoved().ValidMoves(gameBoard).Count == 0) {
                 currentPlayer = currentPlayer == player1? player2 : player1;
             }
             //CheckAnyValid()

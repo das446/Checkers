@@ -11,9 +11,9 @@ namespace CheckersLogic {
       INVALID,
       EMPTY,
       WHITE,
-      BLACK,
+      RED,
       WHITE_KING,
-      BLACK_KING
+      RED_KING
     }
 
     public PieceType type;
@@ -25,8 +25,8 @@ namespace CheckersLogic {
     }
 
     public PieceType getColor() {
-      if (type == PieceType.BLACK_KING) {
-        return PieceType.BLACK;
+      if (type == PieceType.RED_KING) {
+        return PieceType.RED;
       }
       if (type == PieceType.WHITE_KING) {
         return PieceType.WHITE;
@@ -35,18 +35,22 @@ namespace CheckersLogic {
     }
 
     public void KingMe(Board b) {
-      if (type == PieceType.BLACK) {
-        type = PieceType.BLACK_KING;
+      if (type == PieceType.RED) {
+        type = PieceType.RED_KING;
         b.getTile(row, col).SetPiece(new KingPiece(row, col, type));
       } else if (type == PieceType.WHITE) {
         type = PieceType.WHITE_KING;
       }
     }
 
+    public List<Move> ValidMoves() {
+      return ValidMoves(GameManager.manager.gameBoard);
+    }
+
     public List<Move> ValidMoves(Board b) {
       List<Move> Moves = new List<Move>();
       //Black
-      if (getColor() == PieceType.BLACK) {
+      if (getColor() == PieceType.RED) {
 
         //UpRight
 
@@ -85,7 +89,7 @@ namespace CheckersLogic {
           Position from = new Position(row, col);
           Position to = new Position(row + 1, col - 1);
           Moves.Add(new Move(from, to));
-        } else if (b.getPiece(row + 1, col - 1).getColor() == PieceType.BLACK && b.getPiece(row + 2, col - 2).getColor() == PieceType.EMPTY) {
+        } else if (b.getPiece(row + 1, col - 1).getColor() == PieceType.RED && b.getPiece(row + 2, col - 2).getColor() == PieceType.EMPTY) {
           Position from = new Position(row, col);
           Position to = new Position(row + 2, col - 2);
           Position over = new Position(row + 1, col - 1);
@@ -98,7 +102,7 @@ namespace CheckersLogic {
           Position from = new Position(row, col);
           Position to = new Position(row + 1, col - 1);
           Moves.Add(new Move(from, to));
-        } else if (b.getPiece(row + 1, col + 1).getColor() == PieceType.BLACK && b.getPiece(row + 2, col + 2).getColor() == PieceType.EMPTY) {
+        } else if (b.getPiece(row + 1, col + 1).getColor() == PieceType.RED && b.getPiece(row + 2, col + 2).getColor() == PieceType.EMPTY) {
           Position from = new Position(row, col);
           Position to = new Position(row + 2, col + 2);
           Position over = new Position(row + 1, col + 1);
@@ -107,6 +111,19 @@ namespace CheckersLogic {
 
       }
       return Moves;
+    }
+
+    void OnMouseDown() {
+      Debug.Log(row + "," + col);
+      List<Move> validMoves = ValidMoves();
+      List<Tile> tiles = new List<Tile>();
+      Board b = GameManager.manager.gameBoard;
+      foreach (Move move in validMoves) {
+        Tile t = b.getTile(move.to.row, move.to.col);
+        tiles.Add(t);
+      }
+      b.UpdateGlow(tiles);
+      GameManager.manager.selectedPiece = this;
     }
 
   }

@@ -95,7 +95,7 @@ namespace CheckersLogic {
 
     private void KingMe(Position pos) {
       Piece p = board[pos.row, pos.col].getPiece(); 
-      if (p.type == Piece.PieceType.BLACK && pos.row == 0) {
+      if (p.type == Piece.PieceType.RED && pos.row == 0) {
         p.KingMe(this);
       }
       else if (p.type == Piece.PieceType.WHITE && pos.row == 7) {
@@ -107,7 +107,7 @@ namespace CheckersLogic {
     Only Black and White Supported
     **/
     public List<Move> getMovesByColor(Piece.PieceType color) {
-      if (color != Piece.PieceType.BLACK || color != Piece.PieceType.WHITE) {
+      if (color != Piece.PieceType.RED || color != Piece.PieceType.WHITE) {
         //throw Exception here
         return null;
       }
@@ -150,8 +150,18 @@ namespace CheckersLogic {
     private void addMoves(int row, int col, List<Move> moves) {
       List<Move> newMoves = getTile(row,col).getPiece().ValidMoves(this);
       moves.AddRange(newMoves);
+    }
 
-
+    public void UpdateGlow(List<Tile> tiles) {
+      for (int x = 0; x < 8; x++) {
+        for (int y = 0; y < 8; y++) {
+          if (tiles.Contains(board[x, y])) {
+            board[x, y].GetComponent<Material>().color = Color.green;
+          } else {
+            board[x, y].GetComponent<Material>().color = Color.white;
+          }
+        }
+      }
     }
     public override string ToString() {
       string board = "";
@@ -159,10 +169,10 @@ namespace CheckersLogic {
         board += "\n   ---------------------------------\n " + (8 - row) + " |";
         for (int col = 0; col < 8; col++) {
           switch (this.board[row, col].getPiece().type) {
-            case Piece.PieceType.BLACK:
+            case Piece.PieceType.RED:
               board += " b |";
               break;
-            case Piece.PieceType.BLACK_KING:
+            case Piece.PieceType.RED_KING:
               board += " B |";
               break;
             case Piece.PieceType.WHITE:

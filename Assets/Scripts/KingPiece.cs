@@ -8,8 +8,8 @@ namespace CheckersLogic {
         {
 			this.row = row;
 			this.col = col;
-			if (type == Piece.PieceType.BLACK) {
-				type = Piece.PieceType.BLACK_KING;
+			if (type == Piece.PieceType.RED) {
+				type = Piece.PieceType.RED_KING;
 			} else if (type == Piece.PieceType.WHITE) {
 				type = Piece.PieceType.WHITE_KING;
 			} else {
@@ -22,7 +22,7 @@ namespace CheckersLogic {
         public new List<Move> ValidMoves(Board b) {
 			List<Move> Moves = new List<Move>();
 			//Black
-			if (getColor() == PieceType.BLACK) {
+			if (getColor() == PieceType.RED) {
 
 				//UpRight
 
@@ -55,7 +55,7 @@ namespace CheckersLogic {
 					Position from = new Position(row, col);
 					Position to = new Position(row + 1, col - 1);
 					Moves.Add(new Move(from, to));
-				} else if (b.getPiece(row + 1, col - 1).getColor() == PieceType.BLACK && b.getPiece(row + 2, col - 2).getColor() == PieceType.EMPTY) {
+				} else if (b.getPiece(row + 1, col - 1).getColor() == PieceType.RED && b.getPiece(row + 2, col - 2).getColor() == PieceType.EMPTY) {
 					Position from = new Position(row, col);
 					Position to = new Position(row + 2, col - 2);
 					Position over = new Position(row + 1, col - 1);
@@ -86,7 +86,7 @@ namespace CheckersLogic {
 					Position from = new Position(row, col);
 					Position to = new Position(row + 1, col - 1);
 					Moves.Add(new Move(from, to));
-				} else if (b.getPiece(row + 1, col - 1).getColor() == PieceType.BLACK && b.getPiece(row + 2, col - 2).getColor() == PieceType.EMPTY) {
+				} else if (b.getPiece(row + 1, col - 1).getColor() == PieceType.RED && b.getPiece(row + 2, col - 2).getColor() == PieceType.EMPTY) {
 					Position from = new Position(row, col);
 					Position to = new Position(row + 2, col - 2);
 					Position over = new Position(row + 1, col - 1);
@@ -99,7 +99,7 @@ namespace CheckersLogic {
 					Position from = new Position(row, col);
 					Position to = new Position(row + 1, col - 1);
 					Moves.Add(new Move(from, to));
-				} else if (b.getPiece(row + 1, col + 1).getColor() == PieceType.BLACK && b.getPiece(row + 2, col + 2).getColor() == PieceType.EMPTY) {
+				} else if (b.getPiece(row + 1, col + 1).getColor() == PieceType.RED && b.getPiece(row + 2, col + 2).getColor() == PieceType.EMPTY) {
 					Position from = new Position(row, col);
 					Position to = new Position(row + 2, col + 2);
 					Position over = new Position(row + 1, col + 1);
@@ -112,7 +112,7 @@ namespace CheckersLogic {
 					Position from = new Position(row, col);
 					Position to = new Position(row - 1, col - 1);
 					Moves.Add(new Move(from, to));
-				} else if (b.getPiece(row - 1, col - 1).getColor() == PieceType.BLACK && b.getPiece(row - 2, col - 2).getColor() == PieceType.EMPTY) {
+				} else if (b.getPiece(row - 1, col - 1).getColor() == PieceType.RED && b.getPiece(row - 2, col - 2).getColor() == PieceType.EMPTY) {
 					Position from = new Position(row, col);
 					Position to = new Position(row - 2, col - 2);
 					Position over = new Position(row - 1, col - 1);
@@ -125,7 +125,7 @@ namespace CheckersLogic {
 					Position from = new Position(row, col);
 					Position to = new Position(row - 1, col - 1);
 					Moves.Add(new Move(from, to));
-				} else if (b.getPiece(row - 1, col + 1).getColor() == PieceType.BLACK && b.getPiece(row - 2, col + 2).getColor() == PieceType.EMPTY) {
+				} else if (b.getPiece(row - 1, col + 1).getColor() == PieceType.RED && b.getPiece(row - 2, col + 2).getColor() == PieceType.EMPTY) {
 					Position from = new Position(row, col);
 					Position to = new Position(row - 2, col + 2);
 					Position over = new Position(row - 1, col + 1);
