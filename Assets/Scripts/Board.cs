@@ -7,15 +7,15 @@ namespace CheckersLogic {
     private Tile[, ] board = new Tile[8, 8];
     public Position lastMovedPiece;
 
+        public Piece emptyPiece;
+
     public Piece lastMoved(){
       return board[lastMovedPiece.row,lastMovedPiece.col].getPiece();
     }
 
-        private GameObject[] boardTiles;
         void Start()
         {
             int i = 0;
-            boardTiles = new GameObject[transform.childCount];
             for (int row = 0; row < 8; row++)
             {
                 for (int col = 0; col < 8; col++)
@@ -28,6 +28,7 @@ namespace CheckersLogic {
 
             foreach(var t in board)
             {
+                //Tile tilePlace = transform.GetChild(i).GetComponent<Tile>();
                 board[t.row, t.col].type = Piece.PieceType.INVALID;
                 //White
                 if (t.row == 0 && (t.col % 2 == 1))
@@ -61,7 +62,21 @@ namespace CheckersLogic {
                     board[t.row, t.col].type = Piece.PieceType.EMPTY;
                 }
 
+                if(t.piece == null)
+                {
+                    t.piece = Instantiate(emptyPiece.GetComponent<Piece>());
+                    t.piece.row = t.row;
+                    t.piece.col = t.col;
+                    Debug.Log(t.piece.row + "," + t.piece.col);
+                }
             }
+            /*
+            foreach(var t in board)
+            {
+                Debug.Log(t.piece.row + "," + t.piece.col + " type: " + t.piece.type);
+            }
+            */
+            Debug.Log(getPiece(4, 1).type);
         }
 
         /*

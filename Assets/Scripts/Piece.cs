@@ -7,6 +7,13 @@ namespace CheckersLogic {
 
     public int row, col;
 
+    private void Start()
+    {
+        string TileToFind = "Tile " + row + "," + col;
+        Tile ownTile = GameObject.Find(TileToFind).GetComponent<Tile>();
+        ownTile.piece = this;
+    }
+
     public enum PieceType {
       INVALID,
       EMPTY,
