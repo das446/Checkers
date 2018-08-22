@@ -6,47 +6,65 @@ namespace CheckersLogic {
   public class Board : MonoBehaviour {
     private Tile[, ] board = new Tile[8, 8];
     public Position lastMovedPiece;
-    public Board() {
-      resetBoard();
-    }
 
     public Piece lastMoved(){
       return board[lastMovedPiece.row,lastMovedPiece.col].getPiece();
     }
 
-    public void resetBoard() {
-      for (int row = 0; row < 8; row++) {
-        for (int col = 0; col < 8; col++) {
-          board[row, col] = new Tile(row,col,Piece.PieceType.INVALID);
-          //White
-          if (row == 0 && (col % 2 == 1)) {
-            board[row, col] =new Tile(row,col,Piece.PieceType.WHITE);
-          }
-          else if (row == 1 && (col % 2 == 0)) {
-            board[row, col] = new Tile(row,col,Piece.PieceType.WHITE);
-          }
-          else if (row == 2 && (col % 2 == 1)) {
-            board[row, col] = new Tile(row,col,Piece.PieceType.WHITE);
-          }
+        public GameObject[] boardTiles;
+        void Start()
+        {
+            int i = 0;
+            boardTiles = new GameObject[transform.childCount];
+            for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    board[row, col] = transform.GetChild(i).GetComponent<Tile>();
+                    i++;
+                    //Debug.Log("row: " + row + " col: " + col + " tile: " + board[row, col]);
+                }
+            }
+            foreach(var t in board)
+            {
+                //Debug.Log(t);
+            }
+        }
 
-          //Black
-          else if (row == 5 && (col % 2 == 0)) {
-            board[row, col] = new Tile(row,col,Piece.PieceType.BLACK);
-          }
-          else if (row == 6 && (col % 2 == 1)) {
-            board[row, col] = new Tile(row,col,Piece.PieceType.BLACK);
-          }
-          else if (row == 7 && (col % 2 == 0)) {
-            board[row, col] = new Tile(row,col,Piece.PieceType.BLACK);
-          }
+        /*
+        public void resetBoard() {
+          for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+              board[row, col] = new Tile(row,col,Piece.PieceType.INVALID);
+              //White
+              if (row == 0 && (col % 2 == 1)) {
+                board[row, col] =new Tile(row,col,Piece.PieceType.WHITE);
+              }
+              else if (row == 1 && (col % 2 == 0)) {
+                board[row, col] = new Tile(row,col,Piece.PieceType.WHITE);
+              }
+              else if (row == 2 && (col % 2 == 1)) {
+                board[row, col] = new Tile(row,col,Piece.PieceType.WHITE);
+              }
 
-          else{
-            board[row,col] = new Tile(row,col,Piece.PieceType.EMPTY);
+              //Black
+              else if (row == 5 && (col % 2 == 0)) {
+                board[row, col] = new Tile(row,col,Piece.PieceType.BLACK);
+              }
+              else if (row == 6 && (col % 2 == 1)) {
+                board[row, col] = new Tile(row,col,Piece.PieceType.BLACK);
+              }
+              else if (row == 7 && (col % 2 == 0)) {
+                board[row, col] = new Tile(row,col,Piece.PieceType.BLACK);
+              }
+
+              else{
+                board[row,col] = new Tile(row,col,Piece.PieceType.EMPTY);
+              }
+            }
           }
         }
-      }
-    }
-
+        */
     public Tile getTile(int row,int col){
       return board[row,col];
     }

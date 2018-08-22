@@ -8,7 +8,7 @@ namespace CheckersLogic {
 		Piece piece;
 		public int row,col;
 		Color color;
-
+        /*
 		public Tile(int row,int col, Piece piece){
 			this.row = row;
 			this.col = col;
@@ -20,6 +20,7 @@ namespace CheckersLogic {
 			this.col = col;
 			this.piece = new Piece(row,col,type);
 		}
+        */
 
 		void Start(){
 			name = "Tile "+row+","+col;
