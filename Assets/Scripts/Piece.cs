@@ -109,7 +109,5 @@ namespace CheckersLogic {
       return Moves;
     }
 
-    public 
-
   }
 }
