@@ -95,6 +95,9 @@ namespace CheckersLogic {
     }
     */
     public Tile getTile(int row, int col) {
+      if(row<0||row>7||col<0||col>7){
+        return new Tile(col,row,Piece.PieceType.INVALID);
+      }
       return board[row, col];
     }
 
@@ -178,6 +181,11 @@ namespace CheckersLogic {
     }
 
     public void UpdateGlow(List<Tile> tiles) {
+      Debug.Log("Valid Moves = "+ tiles.Count);
+      foreach (Tile t in tiles)
+      {
+          Debug.Log(t);
+      }
       for (int x = 0; x < 8; x++) {
         for (int y = 0; y < 8; y++) {
           if (tiles.Contains(board[x, y])) {

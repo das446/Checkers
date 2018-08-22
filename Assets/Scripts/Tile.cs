@@ -16,13 +16,14 @@ namespace CheckersLogic {
 			this.col = col;
 			this.piece = piece;
 		}
+		*/
 
 		public Tile(int row, int col, Piece.PieceType type){
 			this.row = row;
 			this.col = col;
 			this.piece = new Piece(row,col,type);
 		}
-        */
+        
 
 		void Start(){
 			name = "Tile "+row+","+col;
