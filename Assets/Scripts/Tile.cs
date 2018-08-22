@@ -5,9 +5,11 @@ using UnityEngine;
 namespace CheckersLogic {
 	public class Tile : MonoBehaviour{
 
-		Piece piece;
+		public Piece piece;
 		public int row,col;
 		Color color;
+        public Piece.PieceType type;
+
         /*
 		public Tile(int row,int col, Piece piece){
 			this.row = row;

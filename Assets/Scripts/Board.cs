@@ -11,7 +11,7 @@ namespace CheckersLogic {
       return board[lastMovedPiece.row,lastMovedPiece.col].getPiece();
     }
 
-        public GameObject[] boardTiles;
+        private GameObject[] boardTiles;
         void Start()
         {
             int i = 0;
@@ -22,12 +22,45 @@ namespace CheckersLogic {
                 {
                     board[row, col] = transform.GetChild(i).GetComponent<Tile>();
                     i++;
-                    //Debug.Log("row: " + row + " col: " + col + " tile: " + board[row, col]);
+                    Debug.Log("row: " + row + " col: " + col + " tile: " + board[row, col]);
                 }
             }
+
             foreach(var t in board)
             {
-                //Debug.Log(t);
+                board[t.row, t.col].type = Piece.PieceType.INVALID;
+                //White
+                if (t.row == 0 && (t.col % 2 == 1))
+                {
+                    board[t.row, t.col].type = Piece.PieceType.WHITE;
+                    
+                }
+                else if (t.row == 1 && (t.col % 2 == 0))
+                {
+                    board[t.row, t.col].type = Piece.PieceType.WHITE;
+                }
+                else if (t.row == 2 && (t.col % 2 == 1))
+                {
+                    board[t.row, t.col].type = Piece.PieceType.WHITE;
+                }
+                //RED
+                else if (t.row == 5 && (t.col % 2 == 0))
+                {
+                    board[t.row, t.col].type = Piece.PieceType.RED;
+                }
+                else if (t.row == 6 && (t.col % 2 == 1))
+                {
+                    board[t.row, t.col].type = Piece.PieceType.RED;
+                }
+                else if (t.row == 7 && (t.col % 2 == 0))
+                {
+                    board[t.row, t.col].type = Piece.PieceType.RED;
+                }
+                else
+                {
+                    board[t.row, t.col].type = Piece.PieceType.EMPTY;
+                }
+
             }
         }
 

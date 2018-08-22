@@ -115,6 +115,7 @@ namespace CheckersLogic {
 
     void OnMouseDown() {
       Debug.Log(row + "," + col);
+      //Debug.Log(getColor());
       List<Move> validMoves = ValidMoves();
       List<Tile> tiles = new List<Tile>();
       Board b = GameManager.manager.gameBoard;
