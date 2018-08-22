@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CheckersLogic {
@@ -8,10 +8,10 @@ namespace CheckersLogic {
 
     public int row, col;
 
-    void Start(){
-       string TileToFind = "Tile " + row + "," + col;
-        Tile ownTile = GameObject.Find(TileToFind).GetComponent<Tile>();
-        ownTile.piece = this;
+    void Start() {
+      string TileToFind = "Tile " + row + "," + col;
+      Tile ownTile = GameObject.Find(TileToFind).GetComponent<Tile>();
+      ownTile.piece = this;
     }
 
     public enum PieceType {
@@ -51,7 +51,7 @@ namespace CheckersLogic {
     }
 
     public List<Move> ValidMoves() {
-      
+
       return ValidMoves(GameManager.manager.gameBoard);
     }
 
@@ -61,8 +61,6 @@ namespace CheckersLogic {
       if (getColor() == PieceType.RED) {
 
         //UpRight
-
-        
 
         if (b.getPiece(row - 1, col - 1).getColor() == PieceType.EMPTY) {
           Position from = new Position(row, col);
@@ -124,6 +122,7 @@ namespace CheckersLogic {
     }
 
     void OnMouseDown() {
+      if (GameManager.manager.currentPlayer.color != getColor()) { return; }
       Debug.Log(row + "," + col);
       //Debug.Log(getColor());
       List<Move> validMoves = ValidMoves();

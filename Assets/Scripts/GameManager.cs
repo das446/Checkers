@@ -4,8 +4,8 @@ using UnityEngine;
 namespace CheckersLogic {
     public class GameManager : MonoBehaviour {
         public Board gameBoard;
-        private Player player1, player2;
-        private Player currentPlayer;
+        public Player player1, player2;
+        public Player currentPlayer;
         public Piece selectedPiece;
         public static GameManager manager;
         void Start() {

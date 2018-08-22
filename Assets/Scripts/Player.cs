@@ -4,10 +4,9 @@ using System.Linq;
 using UnityEngine;
 
 namespace CheckersLogic {
-	public class Player {
+	public class Player : MonoBehaviour {
 
 		public Piece.PieceType color;
-		public string name;
 
 		public Player(Piece.PieceType c) {
 			color = c;
