@@ -48,7 +48,7 @@ namespace CheckersLogic {
       /*
       foreach(var t in board)
       {
-          Debug.Log(t.piece.row + "," + t.piece.col + " type: " + t.piece.type);
+          Debug.Log(t.row + "," + t.col + " type: " + t.type());
       }
       */
     }

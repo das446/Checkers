@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 33181745630039952}
   - component: {fileID: 23289888514492832}
   - component: {fileID: 136381026395507588}
-  - component: {fileID: 114503489658441276}
   m_Layer: 0
   m_Name: redPiece
   m_TagString: Untagged
@@ -717,20 +716,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityType: 0
---- !u!114 &114503489658441276
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1818303741548054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 001ccdb7f52fb1e4cbadc7101730bde0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  row: 0
-  col: 0
-  type: 3
 --- !u!114 &114878661364246512
 MonoBehaviour:
   m_ObjectHideFlags: 1

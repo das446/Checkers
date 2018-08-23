@@ -21,7 +21,7 @@ namespace Checkers {
 
 			if (GameManager.manager.currentPlayer.color != piece.getColor()) { return; }
 			
-			//Debug.Log(getColor());
+			Debug.Log(this.row + "," + this.col);
 			List<Move> validMoves = piece.ValidMoves();
 			List<Tile> tiles = new List<Tile>();
 			Board b = GameManager.manager.gameBoard;
