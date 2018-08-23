@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 33205960503840334}
   - component: {fileID: 23096581351188568}
   - component: {fileID: 136607500382642768}
-  - component: {fileID: 114136526842508212}
+  - component: {fileID: 114759791937594282}
   m_Layer: 0
-  m_Name: whitePiece
+  m_Name: BasePiece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,20 +176,6 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 0}
---- !u!114 &114136526842508212
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1006977824105984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 001ccdb7f52fb1e4cbadc7101730bde0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  row: 0
-  col: 0
-  type: 2
 --- !u!114 &114336308433865642
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -768,6 +754,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityType: 0
+--- !u!114 &114759791937594282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1006977824105984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 136d0f8825de9aa4f888f38b838b6ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  row: 0
+  col: 0
 --- !u!136 &136607500382642768
 CapsuleCollider:
   m_ObjectHideFlags: 1
