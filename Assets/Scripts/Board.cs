@@ -124,16 +124,35 @@ namespace CheckersLogic {
       Debug.Log(toTile.transform.position + (Vector3.up * 3));
       piece.transform.position = toTile.transform.position + (Vector3.up * 3);
 
+            Debug.Log(GameManager.manager.currentPlayer);
       if (move.jump) {
         board[move.over.row, move.over.col].RemovePiece();
       }
+      else
+      {
+        switchPlayer(GameManager.manager.currentPlayer);
+      }
+
       lastMovedPiece = move.to;
       KingMe(move.to);
       Debug.Log("Moved");
+      Debug.Log(GameManager.manager.currentPlayer);
       currentMoves = new List<Move>();
 
       //Make this dependant on must jump
       UpdateGlow(new List<Tile>());
+    }
+
+    public void switchPlayer(Player p)
+    {
+        if(p.name == "Player1")
+        {
+            GameManager.manager.currentPlayer = GameManager.manager.player2;
+        }
+        else
+        {
+            GameManager.manager.currentPlayer = GameManager.manager.player1;
+        }
     }
 
     private void KingMe(Position pos) {

@@ -143,7 +143,7 @@ MonoBehaviour:
   gameBoard: {fileID: 349552991}
   player1: {fileID: 1870134919}
   player2: {fileID: 1492701838}
-  currentPlayer: {fileID: 1492701838}
+  currentPlayer: {fileID: 1870134919}
   selectedPiece: {fileID: 0}
 --- !u!4 &4095821
 Transform:
