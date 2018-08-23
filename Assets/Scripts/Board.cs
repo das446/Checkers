@@ -9,6 +9,8 @@ namespace CheckersLogic {
 
     public Piece emptyPiece;
 
+    public List<Move> currentMoves;
+
     public Piece lastMoved() {
       return board[lastMovedPiece.row, lastMovedPiece.col].getPiece();
     }
@@ -24,25 +26,25 @@ namespace CheckersLogic {
 
       foreach (var t in board) {
         //Tile tilePlace = transform.GetChild(i).GetComponent<Tile>();
-        board[t.row, t.col].type = Piece.PieceType.INVALID;
+        board[t.row, t.col].SetPiece(Piece.PieceType.INVALID);
         //White
         if (t.row == 0 && (t.col % 2 == 1)) {
-          board[t.row, t.col].type = Piece.PieceType.WHITE;
+          board[t.row, t.col].SetPiece(Piece.PieceType.WHITE);
 
         } else if (t.row == 1 && (t.col % 2 == 0)) {
-          board[t.row, t.col].type = Piece.PieceType.WHITE;
+          board[t.row, t.col].SetPiece(Piece.PieceType.WHITE);
         } else if (t.row == 2 && (t.col % 2 == 1)) {
-          board[t.row, t.col].type = Piece.PieceType.WHITE;
+          board[t.row, t.col].SetPiece(Piece.PieceType.WHITE);
         }
         //RED
         else if (t.row == 5 && (t.col % 2 == 0)) {
-          board[t.row, t.col].type = Piece.PieceType.RED;
+          board[t.row, t.col].SetPiece(Piece.PieceType.RED);
         } else if (t.row == 6 && (t.col % 2 == 1)) {
-          board[t.row, t.col].type = Piece.PieceType.RED;
+          board[t.row, t.col].SetPiece(Piece.PieceType.RED);
         } else if (t.row == 7 && (t.col % 2 == 0)) {
-          board[t.row, t.col].type = Piece.PieceType.RED;
+          board[t.row, t.col].SetPiece(Piece.PieceType.RED);
         } else {
-          board[t.row, t.col].type = Piece.PieceType.EMPTY;
+          board[t.row, t.col].SetPiece(Piece.PieceType.EMPTY);
         }
 
         if (t.piece == null) {
@@ -57,7 +59,6 @@ namespace CheckersLogic {
           Debug.Log(t.piece.row + "," + t.piece.col + " type: " + t.piece.type);
       }
       */
-      Debug.Log(getPiece(4, 1).type);
     }
 
     /*
@@ -95,8 +96,8 @@ namespace CheckersLogic {
     }
     */
     public Tile getTile(int row, int col) {
-      if(row<0||row>7||col<0||col>7){
-        return new Tile(col,row,Piece.PieceType.INVALID);
+      if (row < 0 || row > 7 || col < 0 || col > 7) {
+        return new Tile(col, row, Piece.PieceType.INVALID);
       }
       return board[row, col];
     }
@@ -116,13 +117,27 @@ namespace CheckersLogic {
     }
 
     public void applyMove(Move move) {
-      board[move.to.row, move.to.col].SetPiece(board[move.from.row, move.from.col].getPiece());
-      board[move.from.row, move.from.col].SetPiece(new Piece(move.from.row, move.from.col, Piece.PieceType.EMPTY));
+      Tile fromTile = getTile(move.from.col, move.from.col);
+      Tile toTile = getTile(move.from.col, move.from.col);
+      Piece piece = fromTile.piece;
+      Piece dPiece = fromTile.displayPiece;
+
+      toTile.SetPiece(piece);
+      Debug.Log(toTile);
+      Debug.Log(dPiece);
+      fromTile.SetPiece(new Piece(move.from.row, move.from.col, Piece.PieceType.EMPTY));
+      dPiece.transform.position = toTile.transform.position + Vector3.up * 3;
+
       if (move.jump) {
         board[move.over.row, move.over.col].RemovePiece();
       }
       lastMovedPiece = move.to;
       KingMe(move.to);
+      Debug.Log("Moved");
+      currentMoves = new List<Move>();
+
+      //Make this dependant on must jump
+      UpdateGlow(new List<Tile>());
     }
 
     private void KingMe(Position pos) {
@@ -181,10 +196,9 @@ namespace CheckersLogic {
     }
 
     public void UpdateGlow(List<Tile> tiles) {
-      Debug.Log("Valid Moves = "+ tiles.Count);
-      foreach (Tile t in tiles)
-      {
-          Debug.Log(t);
+      Debug.Log("Valid Moves = " + tiles.Count);
+      foreach (Tile t in tiles) {
+        Debug.Log(t);
       }
       for (int x = 0; x < 8; x++) {
         for (int y = 0; y < 8; y++) {

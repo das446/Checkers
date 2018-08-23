@@ -4,14 +4,21 @@ using UnityEngine;
 
 namespace CheckersLogic {
 
-  public class Piece : MonoBehaviour {
+  public class Piece:MonoBehaviour {
 
     public int row, col;
+
+    public bool display;
 
     void Start() {
       string TileToFind = "Tile " + row + "," + col;
       Tile ownTile = GameObject.Find(TileToFind).GetComponent<Tile>();
-      ownTile.piece = this;
+      if(display){
+        ownTile.displayPiece=this;
+      }
+      else{
+        ownTile.SetPiece(this);
+      }
     }
 
     public enum PieceType {
@@ -134,6 +141,7 @@ namespace CheckersLogic {
       }
       b.UpdateGlow(tiles);
       GameManager.manager.selectedPiece = this;
+      GameManager.manager.gameBoard.currentMoves = validMoves;
     }
   }
 }

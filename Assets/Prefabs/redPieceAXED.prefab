@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23603641180328962}
   - component: {fileID: 136901203939248522}
   m_Layer: 0
-  m_Name: redPiece
+  m_Name: redPieceAXED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
