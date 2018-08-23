@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Checkers;
 
 namespace CheckersLogic {
     public class GameManager : MonoBehaviour {
         public Board gameBoard;
         public Player player1, player2;
         public Player currentPlayer;
-        public Piece selectedPiece;
+        public DisplayPiece selectedPiece;
         public static GameManager manager;
-        void Start() {
+        void Awake() {
             manager = this;
-            gameBoard = GameObject.FindObjectOfType<Board>();
-            Debug.Log(gameBoard.name);
             currentPlayer = player1;
         }
         public static GameManager getInstance() {
