@@ -33,6 +33,8 @@ namespace Checkers {
 			}
 			p.col = col;
 			p.row = row;
+			p.name = row+","+col;
+			name = row+","+col;
 			tile.SetPiece(t);
 			return p;
 		}
@@ -57,7 +59,7 @@ namespace Checkers {
 			Move move = GameManager.manager.gameBoard.currentMoves.FirstOrDefault(
 				m => m.to.col == col && m.to.row == row
 			);
-			Debug.Log(move);
+			
 			if (move != null) {
 				GameManager.manager.gameBoard.applyMove(move);
 				//TODO Broadcast move to server instead

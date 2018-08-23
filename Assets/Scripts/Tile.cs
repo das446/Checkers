@@ -40,17 +40,14 @@ namespace CheckersLogic {
 
 		public void SetPiece(Piece p) {
 			piece = p;
-			Debug.Log(piece.type);
 		}
 
 		public void SetPiece(Piece.PieceType p) {
 			piece = new Piece(row,col,p);
-			Debug.Log(piece.type);
 		}
 
 		public Piece getPiece() {
 			if (piece == null) {
-				Debug.Log("oops");
 				return new Piece(row, col, Piece.PieceType.EMPTY);
 			}
 			return piece;

@@ -24,8 +24,6 @@ namespace CheckersLogic {
     void LateStart() {
 
       foreach (TileDisplay t in boardDisplay) {
-        //Tile tilePlace = transform.GetChild(i).GetComponent<Tile>();
-        boardDisplay[t.row, t.col].MakePiece(Piece.PieceType.INVALID);
         //White
         if (t.row == 0 && (t.col % 2 == 1)) {
           boardDisplay[t.row, t.col].MakePiece(Piece.PieceType.WHITE);
@@ -112,14 +110,19 @@ namespace CheckersLogic {
     }
 
     public void applyMove(Move move) {
-      TileDisplay fromTile = getTileDisplay(move.from.col, move.from.col);
-      TileDisplay toTile = getTileDisplay(move.from.col, move.from.col);
+      Debug.Log(move.to.row+","+move.to.col);
+      TileDisplay fromTile = getTileDisplay(move.from.row, move.from.col);
+      TileDisplay toTile = getTileDisplay(move.to.row, move.to.col);
 
       DisplayPiece piece = GameManager.manager.selectedPiece;
 
       toTile.SetPiece(piece.piece);
       fromTile.SetPiece(new Piece(move.from.row, move.from.col, Piece.PieceType.EMPTY));
-      piece.transform.position = toTile.transform.position + Vector3.up * 3;
+      piece.row = toTile.row;
+      piece.col = toTile.col;
+
+      Debug.Log(toTile.transform.position + (Vector3.up * 3));
+      piece.transform.position = toTile.transform.position + (Vector3.up * 3);
 
       if (move.jump) {
         board[move.over.row, move.over.col].RemovePiece();
@@ -190,9 +193,6 @@ namespace CheckersLogic {
 
     public void UpdateGlow(List<Tile> tiles) {
       Debug.Log("Valid Moves = " + tiles.Count);
-      foreach (Tile t in tiles) {
-        Debug.Log(t);
-      }
       for (int x = 0; x < 8; x++) {
         for (int y = 0; y < 8; y++) {
           if (tiles.Contains(board[x, y])) {

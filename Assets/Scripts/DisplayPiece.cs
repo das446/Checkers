@@ -18,7 +18,6 @@ namespace Checkers {
 		}
 
 		void OnMouseDown() {
-			Debug.Log(row + "," + col+" "+ piece.getColor().ToString());
 
 			if (GameManager.manager.currentPlayer.color != piece.getColor()) { return; }
 			
