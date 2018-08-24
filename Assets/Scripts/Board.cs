@@ -123,7 +123,7 @@ namespace CheckersLogic {
       piece.piece.row = toTile.row;
       piece.piece.col = toTile.col;
 
-        Debug.Log(toTile.transform.position + (Vector3.up * 3));
+      //Debug.Log(toTile.transform.position + (Vector3.up * 3));
       piece.transform.position = toTile.transform.position + (Vector3.up * 3);
 
       Debug.Log(GameManager.manager.currentPlayer);
@@ -138,7 +138,6 @@ namespace CheckersLogic {
       lastMovedPiece = move.to;
       KingMe(move.to);
       Debug.Log("Moved");
-      Debug.Log(GameManager.manager.currentPlayer);
       currentMoves = new List<Move>();
       
 
