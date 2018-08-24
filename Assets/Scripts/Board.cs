@@ -120,11 +120,13 @@ namespace CheckersLogic {
       fromTile.SetPiece(new Piece(move.from.row, move.from.col, Piece.PieceType.EMPTY));
       piece.row = toTile.row;
       piece.col = toTile.col;
+      piece.piece.row = toTile.row;
+      piece.piece.col = toTile.col;
 
-      Debug.Log(toTile.transform.position + (Vector3.up * 3));
+        Debug.Log(toTile.transform.position + (Vector3.up * 3));
       piece.transform.position = toTile.transform.position + (Vector3.up * 3);
 
-            Debug.Log(GameManager.manager.currentPlayer);
+      Debug.Log(GameManager.manager.currentPlayer);
       if (move.jump) {
         board[move.over.row, move.over.col].RemovePiece();
       }
@@ -138,6 +140,7 @@ namespace CheckersLogic {
       Debug.Log("Moved");
       Debug.Log(GameManager.manager.currentPlayer);
       currentMoves = new List<Move>();
+      
 
       //Make this dependant on must jump
       UpdateGlow(new List<Tile>());
