@@ -26,7 +26,7 @@ namespace CheckersLogic {
             Debug.Log("checking King moves");
 			List<Move> Moves = new List<Move>();
 			//Black
-			if (getColor() == PieceType.RED_KING) {
+			if (getColor() == PieceType.RED) {
 
 				//UpRight
 
@@ -82,7 +82,7 @@ namespace CheckersLogic {
 			}
 
 			//White
-			else if (getColor() == PieceType.WHITE_KING) {
+			else if (getColor() == PieceType.WHITE) {
 
 				//DownRight
 
