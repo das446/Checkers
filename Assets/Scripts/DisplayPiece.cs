@@ -8,7 +8,7 @@ namespace Checkers {
 	public class DisplayPiece : MonoBehaviour {
 
 		public int row, col;
-		public GameObject crown;
+		//public GameObject crown;
 
 		static List<DisplayPiece> pieces = new List<DisplayPiece>();
 

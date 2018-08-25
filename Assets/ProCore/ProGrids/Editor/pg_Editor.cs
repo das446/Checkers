@@ -470,7 +470,9 @@ namespace ProGrids
 			instance = this;
 			SceneView.onSceneGUIDelegate += OnSceneGUI;
 			EditorApplication.update += Update;
+#pragma warning disable CS0618 // Type or member is obsolete
 			EditorApplication.hierarchyWindowChanged += HierarchyWindowChanged;
+#pragma warning restore CS0618 // Type or member is obsolete
 		}
 
 		void OnEnable()
@@ -485,11 +487,15 @@ namespace ProGrids
 		{
 			SceneView.onSceneGUIDelegate -= OnSceneGUI;
 			EditorApplication.update -= Update;
+#pragma warning disable CS0618 // Type or member is obsolete
 			EditorApplication.hierarchyWindowChanged -= HierarchyWindowChanged;
+#pragma warning restore CS0618 // Type or member is obsolete
 
 			SceneView.onSceneGUIDelegate += OnSceneGUI;
 			EditorApplication.update += Update;
+#pragma warning disable CS0618 // Type or member is obsolete
 			EditorApplication.hierarchyWindowChanged += HierarchyWindowChanged;
+#pragma warning restore CS0618 // Type or member is obsolete
 
 			LoadGUIResources();
 			LoadPreferences();
@@ -531,7 +537,9 @@ namespace ProGrids
 
 			SceneView.onSceneGUIDelegate -= OnSceneGUI;
 			EditorApplication.update -= Update;
+#pragma warning disable CS0618 // Type or member is obsolete
 			EditorApplication.hierarchyWindowChanged -= HierarchyWindowChanged;
+#pragma warning restore CS0618 // Type or member is obsolete
 
 			instance = null;
 

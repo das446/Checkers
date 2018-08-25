@@ -18,10 +18,12 @@ namespace CheckersLogic {
         }
 
 		public new bool king(){
+            Debug.Log("Checking if king: true");
 			return true;
 		}
 
         public new List<Move> ValidMoves(Board b) {
+            Debug.Log("checking King moves");
 			List<Move> Moves = new List<Move>();
 			//Black
 			if (getColor() == PieceType.RED_KING) {
