@@ -18,7 +18,9 @@ namespace Checkers {
 		}
 
 		void OnMouseDown() {
-			if(piece.king()){
+            
+			if(piece.type.ToString() == "RED_KING" || piece.type.ToString() == "WHITE_KING")
+            {
 				Debug.Log("KING");
 			}
 
