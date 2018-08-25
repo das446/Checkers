@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace CheckersLogic {
@@ -12,6 +13,10 @@ namespace CheckersLogic {
       string TileToFind = "Tile " + row + "," + col;
       Tile ownTile = GameObject.Find(TileToFind).GetComponent<Tile>();
       ownTile.SetPiece(this);
+    }
+
+    public bool king(){
+     return false; 
     }
 
     public enum PieceType {
@@ -41,14 +46,7 @@ namespace CheckersLogic {
       return type;
     }
 
-    public void KingMe(Board b) {
-      if (type == PieceType.RED) {
-        type = PieceType.RED_KING;
-        b.getTile(row, col).SetPiece(new KingPiece(row, col, type));
-      } else if (type == PieceType.WHITE) {
-        type = PieceType.WHITE_KING;
-      }
-    }
+    
 
     public List<Move> ValidMoves() {
 
@@ -57,6 +55,9 @@ namespace CheckersLogic {
 
     public List<Move> ValidMoves(Board b) {
       List<Move> Moves = new List<Move>();
+      if (b.lastMoved().type == type && b.lastMoved() != this) {
+        return new List<Move>();
+      }
       //Black
       if (getColor() == PieceType.RED) {
 
@@ -121,6 +122,9 @@ namespace CheckersLogic {
       return Moves;
     }
 
-    
+    public bool canJump() {
+      return ValidMoves().Any(m => m.jump);
+    }
+
   }
 }

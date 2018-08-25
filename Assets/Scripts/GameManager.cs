@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using Checkers;
+using UnityEngine;
 
 namespace CheckersLogic {
     public class GameManager : MonoBehaviour {
@@ -28,8 +28,9 @@ namespace CheckersLogic {
                 return false;
             }
             gameBoard.applyMove(move);
-            if (gameBoard.lastMoved().ValidMoves(gameBoard).Count == 0) {
-                currentPlayer = currentPlayer == player1? player2 : player1;
+            if (gameBoard.lastMoved().canJump() && gameBoard.lastMove.jump) {
+            } else {
+                gameBoard.switchPlayer(currentPlayer);
             }
             //CheckAnyValid()
             //CheckWin()

@@ -8,12 +8,16 @@ namespace CheckersLogic {
     public Tile[, ] board = new Tile[8, 8];
     public TileDisplay[, ] boardDisplay = new TileDisplay[8, 8];
     public Position lastMovedPiece;
+    public Move lastMove;
+
+    public GameObject turnMarker;
 
     public DisplayPiece emptyPiece;
 
     public List<Move> currentMoves;
 
     public Piece lastMoved() {
+      if (lastMove == null) { return new Piece(0, 0, Piece.PieceType.INVALID); }
       return board[lastMovedPiece.row, lastMovedPiece.col].getPiece();
     }
 
@@ -45,12 +49,7 @@ namespace CheckersLogic {
         }
 
       }
-      /*
-      foreach(var t in board)
-      {
-          Debug.Log(t.row + "," + t.col + " type: " + t.type());
-      }
-      */
+      
     }
 
     public void resetBoard() {
@@ -102,6 +101,10 @@ namespace CheckersLogic {
       board[row, col].SetPiece(piece);
     }
 
+    public void setPiece(int row, int col, Piece.PieceType piece) {
+      board[row, col].SetPiece(piece);
+    }
+
     public Piece getPiece(int row, int col) {
       if (row < 0 || row > 7 || col < 0 || col > 7) {
         return new Piece(row, col, Piece.PieceType.INVALID);
@@ -110,7 +113,6 @@ namespace CheckersLogic {
     }
 
     public void applyMove(Move move) {
-      Debug.Log(move.to.row+","+move.to.col);
       TileDisplay fromTile = getTileDisplay(move.from.row, move.from.col);
       TileDisplay toTile = getTileDisplay(move.to.row, move.to.col);
 
@@ -123,47 +125,48 @@ namespace CheckersLogic {
       piece.piece.row = toTile.row;
       piece.piece.col = toTile.col;
 
-      //Debug.Log(toTile.transform.position + (Vector3.up * 3));
       piece.transform.position = toTile.transform.position + (Vector3.up * 3);
 
-      Debug.Log(GameManager.manager.currentPlayer);
       if (move.jump) {
-        board[move.over.row, move.over.col].RemovePiece();
-      }
-      else
-      {
-        switchPlayer(GameManager.manager.currentPlayer);
+        Piece jp = getPiece(move.over.row, move.over.col);
+        RemovePiece(jp);
       }
 
       lastMovedPiece = move.to;
-      KingMe(move.to);
-      Debug.Log("Moved");
+      lastMove = move;
+      KingPiece(move.to);
       currentMoves = new List<Move>();
-      
 
       //Make this dependant on must jump
       UpdateGlow(new List<Tile>());
     }
 
-    public void switchPlayer(Player p)
-    {
-        if(p.name == "Player1")
-        {
-            GameManager.manager.currentPlayer = GameManager.manager.player2;
-        }
-        else
-        {
-            GameManager.manager.currentPlayer = GameManager.manager.player1;
-        }
+    public void switchPlayer(Player p) {
+      if (p.name == "Player1") {
+        GameManager.manager.currentPlayer = GameManager.manager.player2;
+        turnMarker.GetComponent<Renderer>().material.color = Color.white;
+      } else {
+        GameManager.manager.currentPlayer = GameManager.manager.player1;
+        turnMarker.GetComponent<Renderer>().material.color = Color.red;
+
+      }
     }
 
-    private void KingMe(Position pos) {
-      Piece p = board[pos.row, pos.col].getPiece();
+    private void KingPiece(Position pos) {
+      Piece p = getPiece(pos.row, pos.col);
       if (p.type == Piece.PieceType.RED && pos.row == 0) {
-        p.KingMe(this);
+        getTile(pos.row, pos.col).SetPiece(new KingPiece(pos.row, pos.col, Piece.PieceType.RED_KING));
+        DisplayPiece.Get(pos.row, pos.col).KingMe();
       } else if (p.type == Piece.PieceType.WHITE && pos.row == 7) {
-        p.KingMe(this);
+        getTile(pos.row, pos.col).SetPiece(new KingPiece(pos.row, pos.col, Piece.PieceType.WHITE_KING));
+        DisplayPiece.Get(pos.row, pos.col).KingMe();
       }
+    }
+
+    public void RemovePiece(Piece p) {
+      DisplayPiece dp = DisplayPiece.Get(p.row, p.col);
+      dp.Remove();
+      setPiece(p.row, p.col, Piece.PieceType.EMPTY);
     }
 
     /**
@@ -172,7 +175,7 @@ namespace CheckersLogic {
     public List<Move> getMovesByColor(Piece.PieceType color) {
       if (color != Piece.PieceType.RED || color != Piece.PieceType.WHITE) {
         //throw Exception here
-        return null;
+        new List<Move>();
       }
 
       List<Move> moves = new List<Move>();
@@ -213,7 +216,6 @@ namespace CheckersLogic {
     }
 
     public void UpdateGlow(List<Tile> tiles) {
-      Debug.Log("Valid Moves = " + tiles.Count);
       for (int x = 0; x < 8; x++) {
         for (int y = 0; y < 8; y++) {
           if (tiles.Contains(board[x, y])) {

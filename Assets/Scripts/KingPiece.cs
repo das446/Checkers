@@ -17,7 +17,9 @@ namespace CheckersLogic {
 			}
         }
 
-		
+		public new bool king(){
+			return true;
+		}
 
         public new List<Move> ValidMoves(Board b) {
 			List<Move> Moves = new List<Move>();

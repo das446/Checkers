@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CheckersLogic;
 using UnityEngine;
 
@@ -7,22 +8,26 @@ namespace Checkers {
 	public class DisplayPiece : MonoBehaviour {
 
 		public int row, col;
+		public GameObject crown;
+
+		static List<DisplayPiece> pieces = new List<DisplayPiece>();
 
 		public Piece piece { get { return GameManager.manager.gameBoard.getPiece(row, col); } }
 		void Start() {
-
-		}
-
-		void Update() {
-
+			pieces.Add(this);
 		}
 
 		void OnMouseDown() {
 
+			if(piece.king()){
+				Debug.Log("KING");
+			}
+
 			if (GameManager.manager.currentPlayer.color != piece.getColor()) { return; }
-			
-			Debug.Log(this.row + "," + this.col);
-			List<Move> validMoves = piece.ValidMoves();
+
+			List<Move> validMoves = GameManager.manager.gameBoard.getMovesByColor(piece.getColor());
+			if (validMoves.Count == 0) { return; }
+			validMoves = validMoves.Where(m => m.from.row == row && m.from.col == col).ToList();
 			List<Tile> tiles = new List<Tile>();
 			Board b = GameManager.manager.gameBoard;
 			foreach (Move move in validMoves) {
@@ -32,6 +37,19 @@ namespace Checkers {
 			b.UpdateGlow(tiles);
 			GameManager.manager.selectedPiece = this;
 			GameManager.manager.gameBoard.currentMoves = validMoves;
+		}
+
+		public void KingMe() {
+			crown.SetActive(true);
+		}
+
+		public void Remove() {
+			pieces.Remove(this);
+			Destroy(gameObject);
+		}
+
+		public static DisplayPiece Get(int row, int col) {
+			return pieces.Where(p => p.row == row && p.col == col).First();
 		}
 	}
 }

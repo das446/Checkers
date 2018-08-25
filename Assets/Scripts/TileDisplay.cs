@@ -61,10 +61,12 @@ namespace Checkers {
 			);
 			
 			if (move != null) {
-				GameManager.manager.gameBoard.applyMove(move);
+				GameManager.manager.move(move);
 				//TODO Broadcast move to server instead
 			}
 		}
+
+
 
 		
 	}
