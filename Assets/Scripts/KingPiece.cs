@@ -24,7 +24,7 @@ namespace CheckersLogic {
         public new List<Move> ValidMoves(Board b) {
 			List<Move> Moves = new List<Move>();
 			//Black
-			if (getColor() == PieceType.RED) {
+			if (getColor() == PieceType.RED_KING) {
 
 				//UpRight
 
@@ -57,7 +57,7 @@ namespace CheckersLogic {
 					Position from = new Position(row, col);
 					Position to = new Position(row + 1, col - 1);
 					Moves.Add(new Move(from, to));
-				} else if (b.getPiece(row + 1, col - 1).getColor() == PieceType.RED && b.getPiece(row + 2, col - 2).getColor() == PieceType.EMPTY) {
+				} else if (b.getPiece(row + 1, col - 1).getColor() == PieceType.WHITE && b.getPiece(row + 2, col - 2).getColor() == PieceType.EMPTY) {
 					Position from = new Position(row, col);
 					Position to = new Position(row + 2, col - 2);
 					Position over = new Position(row + 1, col - 1);
@@ -80,7 +80,7 @@ namespace CheckersLogic {
 			}
 
 			//White
-			else if (getColor() == PieceType.WHITE) {
+			else if (getColor() == PieceType.WHITE_KING) {
 
 				//DownRight
 

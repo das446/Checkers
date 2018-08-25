@@ -155,9 +155,12 @@ namespace CheckersLogic {
     private void KingPiece(Position pos) {
       Piece p = getPiece(pos.row, pos.col);
       if (p.type == Piece.PieceType.RED && pos.row == 0) {
+                //Debug.Log("Kinged RED");
         getTile(pos.row, pos.col).SetPiece(new KingPiece(pos.row, pos.col, Piece.PieceType.RED_KING));
         DisplayPiece.Get(pos.row, pos.col).KingMe();
+                //Debug.Log("TYPE" + getPiece(pos.row, pos.col).type);
       } else if (p.type == Piece.PieceType.WHITE && pos.row == 7) {
+                //Debug.Log("Kinged WHITE");
         getTile(pos.row, pos.col).SetPiece(new KingPiece(pos.row, pos.col, Piece.PieceType.WHITE_KING));
         DisplayPiece.Get(pos.row, pos.col).KingMe();
       }

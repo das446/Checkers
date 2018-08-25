@@ -18,7 +18,6 @@ namespace Checkers {
 		}
 
 		void OnMouseDown() {
-
 			if(piece.king()){
 				Debug.Log("KING");
 			}
@@ -40,7 +39,7 @@ namespace Checkers {
 		}
 
 		public void KingMe() {
-			crown.SetActive(true);
+            this.transform.GetChild(0).gameObject.SetActive(true);
 		}
 
 		public void Remove() {
