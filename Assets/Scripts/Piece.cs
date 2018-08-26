@@ -48,12 +48,12 @@ namespace CheckersLogic {
 
     
 
-    public List<Move> ValidMoves() {
+    public virtual List<Move> ValidMoves() {
 
       return ValidMoves(GameManager.manager.gameBoard);
     }
 
-    public List<Move> ValidMoves(Board b) {
+    public virtual List<Move> ValidMoves(Board b) {
       List<Move> Moves = new List<Move>();
       if (b.lastMoved().type == type && b.lastMoved() != this) {
         return new List<Move>();

@@ -18,12 +18,15 @@ namespace CheckersLogic {
         }
 
 		public new bool king(){
-            Debug.Log("Checking if king: true");
 			return true;
 		}
 
-        public new List<Move> ValidMoves(Board b) {
-            Debug.Log("checking King moves");
+        public override List<Move> ValidMoves()
+        {
+            return ValidMoves(GameManager.manager.gameBoard);
+        }
+
+        public override List<Move> ValidMoves(Board b) {
 			List<Move> Moves = new List<Move>();
 			//Red
 			if (getColor() == PieceType.RED) {

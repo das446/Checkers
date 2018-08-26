@@ -25,7 +25,6 @@ namespace CheckersLogic {
     }
 
     void Start() {
-      resetBoard();
       Invoke("LateStart", 1);
     }
 
@@ -220,6 +219,7 @@ namespace CheckersLogic {
 
     private void addMoves(int row, int col, List<Move> moves) {
       List<Move> newMoves = getTile(row, col).getPiece().ValidMoves(this);
+      //Debug.Log("addMoves " + getTile(row, col).getPiece().row + "," + getTile(row, col).getPiece().col);
       moves.AddRange(newMoves);
     }
 

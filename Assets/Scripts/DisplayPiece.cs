@@ -19,6 +19,11 @@ namespace Checkers {
 		}
 
 		void OnMouseDown() {
+            
+			if(piece.type.ToString() == "RED_KING" || piece.type.ToString() == "WHITE_KING")
+            {
+				//Debug.Log(piece.GetType());
+			}
 
 			bool ValidTurn = GameManager.manager.currentPlayer == Player.local;
 			bool ValidColor = GameManager.manager.currentPlayer.color == piece.getColor();
@@ -27,8 +32,9 @@ namespace Checkers {
 			}
 
 			List<Move> validMoves = GameManager.manager.gameBoard.getMovesByColor(piece.getColor());
-			if (validMoves.Count == 0) { return; } validMoves = validMoves.Where(m => m.from.row == row && m.from.col == col).ToList();
-			List<Tile> tiles = new List<Tile>();
+			if (validMoves.Count == 0) { return; }
+			validMoves = validMoves.Where(m => m.from.row == row && m.from.col == col).ToList();
+            List<Tile> tiles = new List<Tile>();
 			Board b = GameManager.manager.gameBoard;
 			foreach (Move move in validMoves) {
 				Tile t = b.getTile(move.to.row, move.to.col);
