@@ -21,7 +21,7 @@ namespace Checkers {
             
 			if(piece.type.ToString() == "RED_KING" || piece.type.ToString() == "WHITE_KING")
             {
-				Debug.Log("KING");
+				//Debug.Log(piece.GetType());
 			}
 
 			if (GameManager.manager.currentPlayer.color != piece.getColor()) { return; }
@@ -29,7 +29,7 @@ namespace Checkers {
 			List<Move> validMoves = GameManager.manager.gameBoard.getMovesByColor(piece.getColor());
 			if (validMoves.Count == 0) { return; }
 			validMoves = validMoves.Where(m => m.from.row == row && m.from.col == col).ToList();
-			List<Tile> tiles = new List<Tile>();
+            List<Tile> tiles = new List<Tile>();
 			Board b = GameManager.manager.gameBoard;
 			foreach (Move move in validMoves) {
 				Tile t = b.getTile(move.to.row, move.to.col);
