@@ -10,7 +10,7 @@ namespace CheckersLogic {
       jump = false;
     }
 
-    public Move(Position from, Position to,Position over) {
+    public Move(Position from, Position to, Position over) {
       this.from = from;
       this.to = to;
       this.over = over;
@@ -21,12 +21,36 @@ namespace CheckersLogic {
       return this.from.Equals(other.from) && this.to.Equals(other.to);
     }
 
-    public static Move fromString(string move) {
-      move = move.Trim();
-      if (move.Length != 5) {
-        return null; //Throw here
+    /// <summary>
+    /// Format MoveJ|fr|fc|tr|tc|jc|jr
+    /// </summary>
+    /// <returns></returns>
+    public string NetworkString() {
+      string s = "Move|";
+      if (jump) { s = "MoveJ|"; }
+      s = s + from.row + "|" + from.col + "|" + to.row + "|" + to.col;
+      if (jump) { s = s + "|" + over.row + "|" + over.col; }
+      return s;
+    }
+
+    public static Move fromString(string data) {
+
+      string[] aData = data.Split('|');
+      
+
+      if (aData[0] == "Move") {
+
+        Position from = new Position(int.Parse(aData[1]), int.Parse(aData[2]));
+        Position to = new Position(int.Parse(aData[3]), int.Parse(aData[4]));
+        Move m = new Move(from, to);
+        return m;
+      } else {
+        Position from = new Position(int.Parse(aData[1]), int.Parse(aData[2]));
+        Position to = new Position(int.Parse(aData[3]), int.Parse(aData[4]));
+        Position over = new Position(int.Parse(aData[5]), int.Parse(aData[6]));
+        Move m = new Move(from, to,over);
+        return m;
       }
-      return new Move(new Position(move[1] - '1', 'h' - move[0]), new Position(move[4] - '1', 'h' - move[3]));
     }
 
     public override string ToString() {

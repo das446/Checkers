@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Checkers;
 using UnityEngine;
+using Checkers.Network;
 
 namespace CheckersLogic {
   public class Board : MonoBehaviour {
@@ -22,6 +25,7 @@ namespace CheckersLogic {
     }
 
     void Start() {
+      resetBoard();
       Invoke("LateStart", 1);
     }
 
@@ -49,7 +53,7 @@ namespace CheckersLogic {
         }
 
       }
-      
+
     }
 
     public void resetBoard() {
@@ -113,32 +117,33 @@ namespace CheckersLogic {
     }
 
     public void applyMove(Move move) {
-      TileDisplay fromTile = getTileDisplay(move.from.row, move.from.col);
-      TileDisplay toTile = getTileDisplay(move.to.row, move.to.col);
+        TileDisplay fromTile = getTileDisplay(move.from.row, move.from.col);
+        TileDisplay toTile = getTileDisplay(move.to.row, move.to.col);
 
-      DisplayPiece piece = GameManager.manager.selectedPiece;
+        DisplayPiece piece = DisplayPiece.Get(move.from.row,move.from.col);
 
-      toTile.SetPiece(piece.piece);
-      fromTile.SetPiece(new Piece(move.from.row, move.from.col, Piece.PieceType.EMPTY));
-      piece.row = toTile.row;
-      piece.col = toTile.col;
-      piece.piece.row = toTile.row;
-      piece.piece.col = toTile.col;
+        toTile.SetPiece(piece.piece);
+        fromTile.SetPiece(new Piece(move.from.row, move.from.col, Piece.PieceType.EMPTY));
+        piece.row = toTile.row;
+        piece.col = toTile.col;
+        piece.piece.row = toTile.row;
+        piece.piece.col = toTile.col;
 
-      piece.transform.position = toTile.transform.position + (Vector3.up * 3);
+        piece.transform.position = toTile.transform.position + (Vector3.up * 3);
 
-      if (move.jump) {
-        Piece jp = getPiece(move.over.row, move.over.col);
-        RemovePiece(jp);
-      }
+        if (move.jump) {
+          Piece jp = getPiece(move.over.row, move.over.col);
+          RemovePiece(jp);
+        }
 
-      lastMovedPiece = move.to;
-      lastMove = move;
-      KingPiece(move.to);
-      currentMoves = new List<Move>();
+        lastMovedPiece = move.to;
+        lastMove = move;
+        KingPiece(move.to);
+        currentMoves = new List<Move>();
 
-      //Make this dependant on must jump
-      UpdateGlow(new List<Tile>());
+        //Make this dependant on must jump
+        UpdateGlow(new List<Tile>());
+     
     }
 
     public void switchPlayer(Player p) {
@@ -155,12 +160,12 @@ namespace CheckersLogic {
     private void KingPiece(Position pos) {
       Piece p = getPiece(pos.row, pos.col);
       if (p.type == Piece.PieceType.RED && pos.row == 0) {
-                //Debug.Log("Kinged RED");
+        //Debug.Log("Kinged RED");
         getTile(pos.row, pos.col).SetPiece(new KingPiece(pos.row, pos.col, Piece.PieceType.RED_KING));
         DisplayPiece.Get(pos.row, pos.col).KingMe();
-                //Debug.Log("TYPE" + getPiece(pos.row, pos.col).type);
+        //Debug.Log("TYPE" + getPiece(pos.row, pos.col).type);
       } else if (p.type == Piece.PieceType.WHITE && pos.row == 7) {
-                //Debug.Log("Kinged WHITE");
+        //Debug.Log("Kinged WHITE");
         getTile(pos.row, pos.col).SetPiece(new KingPiece(pos.row, pos.col, Piece.PieceType.WHITE_KING));
         DisplayPiece.Get(pos.row, pos.col).KingMe();
       }

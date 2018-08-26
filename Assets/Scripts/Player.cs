@@ -2,11 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Checkers.Network;
 
 namespace CheckersLogic {
 	public class Player : MonoBehaviour {
 
 		public Piece.PieceType color;
+
+		public static Player local;
+
+		void Start(){
+			if(Client.client.clientName == name){
+				local = this;
+			}
+
+		}
 
 		public Player(Piece.PieceType c) {
 			color = c;
@@ -22,6 +32,10 @@ namespace CheckersLogic {
 			Board board = GameManager.manager.gameBoard;
 			return board.getMovesByColor(color);
 
+		}
+
+		public void SendToServer(string s){
+			Client.client.Send(s);
 		}
 	}
 }

@@ -33,11 +33,14 @@ namespace Checkers.Network {
 
         public bool gameStarted = false;
 
+        public static int mainThreadId;
+
         void Start() {
             Instance = this;
             serverMenu.SetActive(false);
             connectMenu.SetActive(false);
             DontDestroyOnLoad(gameObject);
+            mainThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
             //DontDestroyOnLoad(DebugText.gameObject.transform.parent.gameObject);
 
         }
@@ -69,6 +72,7 @@ namespace Checkers.Network {
                 Clients.Add(c);
                 c.clientName = ClientName;
                 c.clientName = "Player1";
+                c.Host = true;
                 c.ConnectToServer(LocalIPAddress().ToString(), portNumber);
                 IP.text = LocalIPAddress().ToString();
             } catch (Exception e) {
@@ -123,15 +127,18 @@ namespace Checkers.Network {
             if (gameStarted) { return; }
             UnityEngine.SceneManagement.SceneManager.LoadScene(1);
             gameStarted = true;
-            DebugText = GameObject.Find("Debug").GetComponent<Text>();
+            
         }
 
         public static void debug(string s) {
+
+            if(!IsMainThread){return;}
+
             if (Instance.DebugText == null) {
                 Instance.DebugText = GameObject.Find("Debug")?.GetComponent<Text>();
             }
             Instance.DebugText.text += s + "\n";
-            Instance.Invoke("ClearDebug", 10);
+            Instance.Invoke("ClearDebug", 20);
         }
 
         public void ClearDebug() {
@@ -151,6 +158,10 @@ namespace Checkers.Network {
             return host
                 .AddressList
                 .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+        }
+
+        public static bool IsMainThread {
+            get { return System.Threading.Thread.CurrentThread.ManagedThreadId == mainThreadId; }
         }
 
     }

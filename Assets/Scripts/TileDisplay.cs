@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CheckersLogic;
 using UnityEngine;
 using System.Linq;
+using Checkers.Network;
 
 namespace Checkers {
 	public class TileDisplay : MonoBehaviour {
@@ -53,6 +54,7 @@ namespace Checkers {
 		}
 
 		void OnMouseDown() {
+
 			if(GameManager.manager.gameBoard.currentMoves==null){return;}
 			if(GameManager.manager.gameBoard.currentMoves.Count==0){return;}
 
@@ -60,9 +62,13 @@ namespace Checkers {
 				m => m.to.col == col && m.to.row == row
 			);
 			
+
+
 			if (move != null) {
-				GameManager.manager.move(move);
-				//TODO Broadcast move to server instead
+
+				NetworkManager.debug(Client.client.clientName);
+
+				Client.client.Send(move.NetworkString());
 			}
 		}
 

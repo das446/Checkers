@@ -12,7 +12,7 @@ namespace Checkers.Network {
 
         public int port = 6321;
 
-        List<ServerClient> clients;
+        public List<ServerClient> clients;
         List<ServerClient> disconnectList;
 
         TcpListener server;
@@ -37,7 +37,6 @@ namespace Checkers.Network {
                 StartListening();
                 ServerStarted = true;
             } catch (Exception e) {
-                NetworkManager.debug("Socket Error: " + e.Message);
             }
         }
 
@@ -93,10 +92,7 @@ namespace Checkers.Network {
             Broadcast("SWHO|" + clients[0].ClientName, clients[clients.Count - 1]);
             
 
-            if(NetworkManager.Instance.gameStarted==false && clients.Count==2){
-                NetworkManager.Instance.StartGame();
-                NetworkManager.debug("Start Game");
-            }
+            
         }
 
         bool IsConnected(TcpClient c) {
@@ -113,7 +109,6 @@ namespace Checkers.Network {
         }
 
         void Broadcast(string data, List<ServerClient> cl) {
-             NetworkManager.debug("Server Broadcast| "+data);
             foreach (ServerClient sc in cl) {
                 try {
                     StreamWriter writer = new StreamWriter(sc.tcp.GetStream());
@@ -130,7 +125,7 @@ namespace Checkers.Network {
             Broadcast(data, sc);
         }
 
-        void OnIncominngData(ServerClient c, string data) {
+        public void OnIncominngData(ServerClient c, string data) {
 
             string[] aData = data.Split('|');
 
@@ -148,7 +143,11 @@ namespace Checkers.Network {
                     Broadcast("Test|" + aData[1], byName(aData[1]));
                     break;
                 case "Move":
-                    Broadcast("",clients);
+                    Broadcast(data,clients);
+                    break;
+                
+                 case "MoveJ":
+                    Broadcast(data,clients);
                     break;
                 
                 case "Restart":

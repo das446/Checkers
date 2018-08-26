@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using CheckersLogic;
 using UnityEngine;
 
 namespace Checkers.Network {
@@ -18,12 +19,16 @@ namespace Checkers.Network {
         List<GameClient> Players = new List<GameClient>();
         public bool Host;
         public Client Opponent;
-        string host;
-        int port;
+        [SerializeField] string host;
+        [SerializeField] int port;
         public bool GameStarted;
+
+        public static Client client;
 
         void Start() {
             DontDestroyOnLoad(gameObject);
+            client = this;
+
         }
 
         void Update() {
@@ -44,7 +49,7 @@ namespace Checkers.Network {
         }
 
         public bool ConnectToServer(string host, int port) {
-            if (socketReady) { return false; }
+            if (socketReady && writer != null) { return false; }
 
             try {
                 socket = null;
@@ -57,17 +62,14 @@ namespace Checkers.Network {
                 this.host = host;
                 this.port = port;
 
-                NetworkManager.debug(clientName + " connected");
 
             } catch (Exception e) {
-                NetworkManager.debug("Socket Error : " + e.Message);
             }
 
             return socketReady;
         }
 
         void OnIncomingData(string data) {
-            NetworkManager.debug("Client Incoming " + data);
 
             string[] aData = data.Split('|');
 
@@ -99,13 +101,30 @@ namespace Checkers.Network {
                     Send("Started|" + clientName);
                     break;
 
+                case "Move":
+
+                    GameManager.manager.move(Move.fromString(data));
+                    break;
+
+                case "MoveJ":
+                    GameManager.manager.move(Move.fromString(data));
+                    break;
+
                 default:
                     break;
             }
         }
         public void Send(string data) {
-            if (!socketReady) {
+
+            if (Host) {
+                Server s = NetworkManager.Instance.server;
+                s.OnIncominngData(s.clients[0], data);
                 return;
+            }
+
+            if (!socketReady || writer == null) {
+                return;
+
             }
             writer.WriteLine(data);
             writer.Flush();
@@ -145,15 +164,6 @@ namespace Checkers.Network {
             GameClient c = new GameClient();
             c.name = Name;
             Players.Add(c);
-            if (!NetworkManager.Instance.Clients.Any(x => x.clientName == Name)) {
-                Client C = Instantiate(NetworkManager.Instance.clientPrefab).GetComponent<Client>();
-                C.clientName = Name;
-                C.name = Name;
-                NetworkManager.Instance.Clients.Add(C);
-            }
-            if (Players.Count == 2) {
-                NetworkManager.Instance.StartGame();
-            }
         }
 
         void OnApplicationQuit() {

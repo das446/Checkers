@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Checkers.Network;
 using CheckersLogic;
 using UnityEngine;
 
@@ -18,17 +19,15 @@ namespace Checkers {
 		}
 
 		void OnMouseDown() {
-            
-			if(piece.type.ToString() == "RED_KING" || piece.type.ToString() == "WHITE_KING")
-            {
-				Debug.Log("KING");
+
+			bool ValidTurn = GameManager.manager.currentPlayer == Player.local;
+			bool ValidColor = GameManager.manager.currentPlayer.color == piece.getColor();
+			if (!ValidColor || !ValidTurn) {
+				return;
 			}
 
-			if (GameManager.manager.currentPlayer.color != piece.getColor()) { return; }
-
 			List<Move> validMoves = GameManager.manager.gameBoard.getMovesByColor(piece.getColor());
-			if (validMoves.Count == 0) { return; }
-			validMoves = validMoves.Where(m => m.from.row == row && m.from.col == col).ToList();
+			if (validMoves.Count == 0) { return; } validMoves = validMoves.Where(m => m.from.row == row && m.from.col == col).ToList();
 			List<Tile> tiles = new List<Tile>();
 			Board b = GameManager.manager.gameBoard;
 			foreach (Move move in validMoves) {
@@ -41,7 +40,7 @@ namespace Checkers {
 		}
 
 		public void KingMe() {
-            this.transform.GetChild(0).gameObject.SetActive(true);
+			this.transform.GetChild(0).gameObject.SetActive(true);
 		}
 
 		public void Remove() {
