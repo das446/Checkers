@@ -117,11 +117,11 @@ namespace Checkers.Network {
         }
         public void Send(string data) {
 
-            if (Host) {
+            /*if (Host) {
                 Server s = NetworkManager.Instance.server;
                 s.OnIncominngData(s.clients[0], data);
                 return;
-            }
+            }*/
 
             if (!socketReady || writer == null) {
                 return;
