@@ -138,7 +138,7 @@ namespace Checkers.Network {
                 Instance.DebugText = GameObject.Find("Debug")?.GetComponent<Text>();
             }
             Instance.DebugText.text += s + "\n";
-            Instance.Invoke("ClearDebug", 20);
+            Instance.Invoke("ClearDebug", 30);
         }
 
         public void ClearDebug() {

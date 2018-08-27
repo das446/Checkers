@@ -36,19 +36,19 @@ namespace CheckersLogic {
     public static Move fromString(string data) {
 
       string[] aData = data.Split('|');
-      
 
-      if (aData[0] == "Move") {
+      if (aData[0] == "MoveJ") {
+
+        Position from = new Position(int.Parse(aData[1]), int.Parse(aData[2]));
+        Position to = new Position(int.Parse(aData[3]), int.Parse(aData[4]));
+        Position over = new Position(int.Parse(aData[5]), int.Parse(aData[6]));
+        Move m = new Move(from, to, over);
+        return m;
+      } else {
 
         Position from = new Position(int.Parse(aData[1]), int.Parse(aData[2]));
         Position to = new Position(int.Parse(aData[3]), int.Parse(aData[4]));
         Move m = new Move(from, to);
-        return m;
-      } else {
-        Position from = new Position(int.Parse(aData[1]), int.Parse(aData[2]));
-        Position to = new Position(int.Parse(aData[3]), int.Parse(aData[4]));
-        Position over = new Position(int.Parse(aData[5]), int.Parse(aData[6]));
-        Move m = new Move(from, to,over);
         return m;
       }
     }

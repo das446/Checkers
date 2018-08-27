@@ -58,7 +58,7 @@ namespace CheckersLogic {
       if (b.lastMoved().type == type && b.lastMoved() != this) {
         return new List<Move>();
       }
-      //Black
+      //Red
       if (getColor() == PieceType.RED) {
 
         //UpRight

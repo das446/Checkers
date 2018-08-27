@@ -15,13 +15,23 @@ namespace Checkers {
 
 		public Piece piece { get { return GameManager.manager.gameBoard.getPiece(row, col); } }
 		void Start() {
-			pieces.Add(this);
+			if (!pieces.Any(p => p == this) && piece.type!=Piece.PieceType.EMPTY && piece.type!=Piece.PieceType.INVALID) {
+				pieces.Add(this);
+			}
+			SetName();
+		}
+
+		public void SetName() {
+			string t = "Empty";
+			if (piece.type == Piece.PieceType.RED || piece.type == Piece.PieceType.WHITE || piece.type == Piece.PieceType.RED_KING || piece.type == Piece.PieceType.WHITE_KING) {
+				t = "Piece";
+			}
+			gameObject.name = t + "," + piece.row + "," + piece.col;
 		}
 
 		void OnMouseDown() {
-            
-			if(piece.type.ToString() == "RED_KING" || piece.type.ToString() == "WHITE_KING")
-            {
+
+			if (piece.type.ToString() == "RED_KING" || piece.type.ToString() == "WHITE_KING") {
 				//Debug.Log(piece.GetType());
 			}
 
@@ -34,7 +44,7 @@ namespace Checkers {
 			List<Move> validMoves = GameManager.manager.gameBoard.getMovesByColor(piece.getColor());
 			if (validMoves.Count == 0) { return; }
 			validMoves = validMoves.Where(m => m.from.row == row && m.from.col == col).ToList();
-            List<Tile> tiles = new List<Tile>();
+			List<Tile> tiles = new List<Tile>();
 			Board b = GameManager.manager.gameBoard;
 			foreach (Move move in validMoves) {
 				Tile t = b.getTile(move.to.row, move.to.col);
@@ -55,7 +65,9 @@ namespace Checkers {
 		}
 
 		public static DisplayPiece Get(int row, int col) {
-			return pieces.Where(p => p.row == row && p.col == col).First();
+			List<DisplayPiece> ps = pieces.Where(p => p.row == row && p.col == col).ToList();
+			NetworkManager.debug("c=" + ps.Count);
+			return ps.Last();
 		}
 	}
 }

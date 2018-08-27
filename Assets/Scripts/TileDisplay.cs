@@ -34,8 +34,7 @@ namespace Checkers {
 			}
 			p.col = col;
 			p.row = row;
-			p.name = row+","+col;
-			name = row+","+col;
+			p.SetName();
 			tile.SetPiece(t);
 			return p;
 		}

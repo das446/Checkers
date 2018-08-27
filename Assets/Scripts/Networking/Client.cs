@@ -102,11 +102,12 @@ namespace Checkers.Network {
                     break;
 
                 case "Move":
-
+                    NetworkManager.debug(data);
                     GameManager.manager.move(Move.fromString(data));
                     break;
 
                 case "MoveJ":
+                    NetworkManager.debug(data);
                     GameManager.manager.move(Move.fromString(data));
                     break;
 
