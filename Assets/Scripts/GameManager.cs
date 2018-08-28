@@ -8,10 +8,11 @@ namespace Checkers {
 
         public DisplayPiece selectedPiece;
         public static GameManager manager;
+        public Network.NetworkPlayer basePlayer;
         void Awake() {
             manager = this;
-            Player.player1 = new Player("Player1", Piece.PieceType.RED);
-            Player.player2 = new Player("Player2", Piece.PieceType.WHITE);
+            Player.player1 = Instantiate(basePlayer).SetPlayer("Player1", Piece.PieceType.RED);
+            Player.player2 = Instantiate(basePlayer).SetPlayer("Player2", Piece.PieceType.WHITE);
             Player.currentPlayer = Player.player1;
             Board.gameBoard = new Board();
             Board.gameBoard.resetBoard();

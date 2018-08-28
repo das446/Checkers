@@ -29,8 +29,7 @@ namespace Checkers {
 				//Debug.Log(piece.GetType());
 			}
 
-			bool ValidTurn = Player.currentPlayer == Player.local;
-			Debug.Log(Player.local);
+			bool ValidTurn = Player.currentPlayer == Checkers.Network.NetworkPlayer.local;
 			bool ValidColor = Player.currentPlayer.color == piece.getColor();
 			if (!ValidColor || !ValidTurn) {
 				return;

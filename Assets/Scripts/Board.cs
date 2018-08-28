@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Checkers.Network;
 
 namespace CheckersLogic {
   public class Board {

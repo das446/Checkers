@@ -1,9 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using Checkers.Network;
-using Checkers;
 
 namespace CheckersLogic {
 	public class Player {
@@ -20,10 +17,7 @@ namespace CheckersLogic {
 		public Player(string name,Piece.PieceType c) {
 			color = c;
 			this.name = name;
-			Debug.Log(Client.client.clientName);
-			if(Client.client.clientName == name){
-				local = this;
-			}
+			
 		}
 
 		public List<Piece> GetPieces(Board board) {
@@ -38,8 +32,5 @@ namespace CheckersLogic {
 
 		}
 
-		public void SendToServer(string s){
-			Client.client.Send(s);
-		}
 	}
 }

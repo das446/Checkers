@@ -141,6 +141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedPiece: {fileID: 0}
+  basePlayer: {fileID: 114488136311347214, guid: d1fb67902188c0c4fb095c1f73fa7575,
+    type: 2}
 --- !u!4 &4095821
 Transform:
   m_ObjectHideFlags: 0
