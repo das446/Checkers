@@ -8,11 +8,11 @@ public class MenuScripts : MonoBehaviour {
 
     public void MainMenu()
     {
-        GameObject c = GameObject.Find("Client");
-        GameObject s = GameObject.Find("Server");
+        GameObject c = GameObject.Find("Client(Clone)");
+        GameObject s = GameObject.Find("Server(Clone)");
         GameObject nm = GameObject.Find("NetworkManager");
 
-        //c.GetComponent<Client>().CloseSocket();
+        c.GetComponent<Client>().CloseSocket();
 
         Destroy(c);
         Destroy(s);
@@ -21,7 +21,7 @@ public class MenuScripts : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
 
-    public void QuitGame()
+    public void QuitGame() //lolololol just realized they're the same
     {
         GameObject c = GameObject.Find("Client(Clone)");
         GameObject s = GameObject.Find("Server(Clone)");
