@@ -13,21 +13,15 @@ namespace Checkers {
 
 		static List<DisplayPiece> pieces = new List<DisplayPiece>();
 
-		public Piece piece { get { return GameManager.manager.gameBoard.getPiece(row, col); } }
+		public Piece piece { get { return Board.gameBoard.getPiece(row, col); } }
 		void Start() {
 			if (!pieces.Any(p => p == this) && piece.type!=Piece.PieceType.EMPTY && piece.type!=Piece.PieceType.INVALID) {
 				pieces.Add(this);
 			}
-			SetName();
+			
 		}
 
-		public void SetName() {
-			string t = "Empty";
-			if (piece.type == Piece.PieceType.RED || piece.type == Piece.PieceType.WHITE || piece.type == Piece.PieceType.RED_KING || piece.type == Piece.PieceType.WHITE_KING) {
-				t = "Piece";
-			}
-			gameObject.name = t + "," + piece.row + "," + piece.col;
-		}
+		
 
 		void OnMouseDown() {
 
@@ -35,24 +29,25 @@ namespace Checkers {
 				//Debug.Log(piece.GetType());
 			}
 
-			bool ValidTurn = GameManager.manager.currentPlayer == Player.local;
-			bool ValidColor = GameManager.manager.currentPlayer.color == piece.getColor();
+			bool ValidTurn = Player.currentPlayer == Player.local;
+			Debug.Log(Player.local);
+			bool ValidColor = Player.currentPlayer.color == piece.getColor();
 			if (!ValidColor || !ValidTurn) {
 				return;
 			}
 
-			List<Move> validMoves = GameManager.manager.gameBoard.getMovesByColor(piece.getColor());
+			List<Move> validMoves = Board.gameBoard.getMovesByColor(piece.getColor());
 			if (validMoves.Count == 0) { return; }
 			validMoves = validMoves.Where(m => m.from.row == row && m.from.col == col).ToList();
 			List<Tile> tiles = new List<Tile>();
-			Board b = GameManager.manager.gameBoard;
+			BoardDisplay b = BoardDisplay.gameBoardDisplay;
 			foreach (Move move in validMoves) {
-				Tile t = b.getTile(move.to.row, move.to.col);
+				Tile t = Board.gameBoard.getTile(move.to.row, move.to.col);
 				tiles.Add(t);
 			}
 			b.UpdateGlow(tiles);
 			GameManager.manager.selectedPiece = this;
-			GameManager.manager.gameBoard.currentMoves = validMoves;
+			Board.gameBoard.currentMoves = validMoves;
 		}
 
 		public void KingMe() {

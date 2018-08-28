@@ -23,7 +23,7 @@ namespace CheckersLogic {
 
         public override List<Move> ValidMoves()
         {
-            return ValidMoves(GameManager.manager.gameBoard);
+            return ValidMoves(Board.gameBoard);
         }
 
         public override List<Move> ValidMoves(Board b) {

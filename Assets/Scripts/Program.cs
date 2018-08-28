@@ -6,7 +6,7 @@ namespace CheckersLogic
     {
         static void Main(string[] args)
         {
-            CheckersLogic.GameManager game = CheckersLogic.GameManager.getInstance();
+            Checkers.GameManager game = Checkers.GameManager.getInstance();
             //game.move(Move.fromString(""))
             Console.WriteLine(game.ToString());
         }

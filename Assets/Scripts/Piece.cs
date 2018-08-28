@@ -9,14 +9,8 @@ namespace CheckersLogic {
 
     public int row, col;
 
-    void Start() {
-      string TileToFind = "Tile " + row + "," + col;
-      Tile ownTile = GameObject.Find(TileToFind).GetComponent<Tile>();
-      ownTile.SetPiece(this);
-    }
-
-    public bool king(){
-     return false; 
+    public bool king() {
+      return false;
     }
 
     public enum PieceType {
@@ -46,11 +40,9 @@ namespace CheckersLogic {
       return type;
     }
 
-    
-
     public virtual List<Move> ValidMoves() {
 
-      return ValidMoves(GameManager.manager.gameBoard);
+      return ValidMoves(Board.gameBoard);
     }
 
     public virtual List<Move> ValidMoves(Board b) {

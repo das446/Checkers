@@ -3,23 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Checkers.Network;
+using Checkers;
 
 namespace CheckersLogic {
-	public class Player : MonoBehaviour {
+	public class Player {
 
 		public Piece.PieceType color;
 
 		public static Player local;
 
-		void Start(){
+		public string name;
+
+		public static Player player1,player2,currentPlayer;
+
+
+		public Player(string name,Piece.PieceType c) {
+			color = c;
+			this.name = name;
+			Debug.Log(Client.client.clientName);
 			if(Client.client.clientName == name){
 				local = this;
 			}
-
-		}
-
-		public Player(Piece.PieceType c) {
-			color = c;
 		}
 
 		public List<Piece> GetPieces(Board board) {
@@ -29,7 +33,7 @@ namespace CheckersLogic {
 		}
 
 		public List<Move> ValidMoves() {
-			Board board = GameManager.manager.gameBoard;
+			Board board = Board.gameBoard;
 			return board.getMovesByColor(color);
 
 		}
