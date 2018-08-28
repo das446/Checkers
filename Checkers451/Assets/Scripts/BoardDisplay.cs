@@ -71,6 +71,8 @@ namespace Checkers {
 			}
 			KingPiece(piece);
 
+            switchPlayer(Player.currentPlayer);
+
 			UpdateGlow(new List<Tile>());
 
 		}
