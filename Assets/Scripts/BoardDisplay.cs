@@ -77,9 +77,11 @@ namespace Checkers {
 
 		private void KingPiece(DisplayPiece p) {
 
-			if (p.piece.type == Piece.PieceType.RED && p.row == 0) {
+			Debug.Log(p.row+","+p.col+p.piece.type.ToString());
+
+			if (p.piece.getColor() == Piece.PieceType.RED && p.row == 0) {
 				p.KingMe();
-			} else if (p.piece.type == Piece.PieceType.WHITE && p.row == 7) {
+			} else if (p.piece.getColor() == Piece.PieceType.WHITE && p.row == 7) {
 				p.KingMe();
 			}
 		}

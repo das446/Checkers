@@ -110,6 +110,7 @@ namespace Checkers.Network {
 
             Server s = FindObjectOfType<Server>();
             if (s != null) {
+                server.Close();
                 server = null;
                 Destroy(s.gameObject);
             }

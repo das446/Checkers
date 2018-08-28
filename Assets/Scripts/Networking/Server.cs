@@ -77,6 +77,13 @@ namespace Checkers.Network {
         void StartListening() {
             server.BeginAcceptTcpClient(AcceptTcpClient, server);
         }
+
+        public void Close(){
+            server.Stop();
+            server=null;
+            ServerStarted=false;
+        }
+
         void AcceptTcpClient(IAsyncResult ar) {
             TcpListener listener = (TcpListener) ar.AsyncState;
             string allUsers = "";
