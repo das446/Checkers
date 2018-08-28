@@ -16,7 +16,6 @@ namespace Checkers {
             Player.currentPlayer = Player.player1;
             Board.gameBoard = new Board();
             Board.gameBoard.resetBoard();
-            Debug.Log(Board.gameBoard.board.Length);
 
         }
         public static GameManager getInstance() {

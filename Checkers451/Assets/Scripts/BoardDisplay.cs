@@ -87,7 +87,7 @@ namespace Checkers {
 		}
 
 		public void switchPlayer(Player p) {
-			Board.gameBoard.switchPlayer(p);
+			
 			if (p.name == "Player1") {
 				turnMarker.GetComponent<Renderer>().material.color = Color.white;
 			} else {
