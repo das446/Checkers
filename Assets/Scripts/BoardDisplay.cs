@@ -71,6 +71,8 @@ namespace Checkers {
 			}
 			KingPiece(piece);
 
+            switchPlayer(Player.currentPlayer);
+
 			UpdateGlow(new List<Tile>());
 
 		}
@@ -87,7 +89,7 @@ namespace Checkers {
 		}
 
 		public void switchPlayer(Player p) {
-			Board.gameBoard.switchPlayer(p);
+			//Board.gameBoard.switchPlayer(p);
 			if (p.name == "Player1") {
 				turnMarker.GetComponent<Renderer>().material.color = Color.white;
 			} else {
