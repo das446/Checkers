@@ -12,6 +12,7 @@ namespace CheckersLogic {
     public TileDisplay[, ] boardDisplay = new TileDisplay[8, 8];
     public Position lastMovedPiece;
     public Move lastMove;
+    public bool hasMoves1 = true, hasMoves2 = true;
 
     public GameObject turnMarker;
 
@@ -153,10 +154,25 @@ namespace CheckersLogic {
       if (p.name == "Player1") {
         GameManager.manager.currentPlayer = GameManager.manager.player2;
         turnMarker.GetComponent<Renderer>().material.color = Color.white;
-      } else {
+        if(getMovesByColor(Piece.PieceType.WHITE).Count > 0)
+        {
+            hasMoves2 = true;
+        }
+        else
+        {
+            hasMoves2 = false;
+        }
+      }else{
         GameManager.manager.currentPlayer = GameManager.manager.player1;
         turnMarker.GetComponent<Renderer>().material.color = Color.red;
-
+        if (getMovesByColor(Piece.PieceType.RED).Count > 0)
+        {
+            hasMoves1 = true;
+        }
+        else
+        {
+            hasMoves1 = false;
+        }
       }
     }
 

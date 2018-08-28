@@ -11,6 +11,8 @@ public class checkEnd : MonoBehaviour {
 
     private Board b;
 
+    private bool loaded = false;
+
 	// Use this for initialization
 	void Start () {
         b = board.GetComponent<Board>();
@@ -18,12 +20,23 @@ public class checkEnd : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(b.GetPieces(Piece.PieceType.WHITE).Count == 0)// || b.getMovesByColor(Piece.PieceType.WHITE).Count == 0)
+        StartCoroutine(checkForEnd());
+    }
+
+    public IEnumerator checkForEnd()
+    {
+        if(!loaded)
+        {
+            yield return new WaitForSeconds(3);
+            loaded = true;
+        }
+        
+        if(b.GetPieces(Piece.PieceType.WHITE).Count == 0 || !b.hasMoves2)
         {
             p1.SetActive(true);
             MenuButton.SetActive(true);
         }
-        else if (b.GetPieces(Piece.PieceType.RED).Count == 0)// || b.getMovesByColor(Piece.PieceType.RED).Count == 0)
+        else if (b.GetPieces(Piece.PieceType.RED).Count == 0 || !b.hasMoves1)
         {
             p2.SetActive(true);
             MenuButton.SetActive(true);
@@ -34,6 +47,5 @@ public class checkEnd : MonoBehaviour {
             p2.SetActive(false);
             MenuButton.SetActive(false);
         }
-
     }
 }
