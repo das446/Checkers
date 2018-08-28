@@ -1,0 +1,2 @@
+C:\Users\maste\Documents\Checkers\Assembly-CSharpTests1\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+C:\Users\maste\Documents\Checkers\Assembly-CSharpTests1\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
