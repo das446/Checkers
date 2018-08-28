@@ -13,9 +13,8 @@ namespace Checkers {
 
 		void Start() {
 			name = "Tile " + row + "," + col;
-			tile = new Tile(row, col);
-			GameManager.manager.gameBoard.boardDisplay[row,col]=this;
-			GameManager.manager.gameBoard.board[row,col]=tile;
+			Debug.Log(BoardDisplay.gameBoardDisplay);
+			BoardDisplay.gameBoardDisplay.boardDisplay[row,col]=this;
 		}
 
 		void Update() {
@@ -25,7 +24,7 @@ namespace Checkers {
 		public DisplayPiece MakePiece(Piece.PieceType t){
 			
 			Vector3 pos = transform.position+Vector3.up*2;
-			DisplayPiece p = Instantiate(GameManager.manager.gameBoard.emptyPiece,pos,transform.rotation);
+			DisplayPiece p = Instantiate(BoardDisplay.gameBoardDisplay.emptyPiece,pos,transform.rotation);
 			if(t == Piece.PieceType.INVALID || t==Piece.PieceType.EMPTY){
 				p.transform.position = Vector3.zero;
 			}
@@ -34,8 +33,6 @@ namespace Checkers {
 			}
 			p.col = col;
 			p.row = row;
-			p.SetName();
-			tile.SetPiece(t);
 			return p;
 		}
 
@@ -54,18 +51,16 @@ namespace Checkers {
 
 		void OnMouseDown() {
 
-			if(GameManager.manager.gameBoard.currentMoves==null){return;}
-			if(GameManager.manager.gameBoard.currentMoves.Count==0){return;}
+			if(Board.gameBoard.currentMoves==null){return;}
+			if(Board.gameBoard.currentMoves.Count==0){return;}
 
-			Move move = GameManager.manager.gameBoard.currentMoves.FirstOrDefault(
+			Move move = Board.gameBoard.currentMoves.FirstOrDefault(
 				m => m.to.col == col && m.to.row == row
 			);
 			
 
 
 			if (move != null) {
-
-				NetworkManager.debug(Client.client.clientName);
 
 				Client.client.Send(move.NetworkString());
 			}

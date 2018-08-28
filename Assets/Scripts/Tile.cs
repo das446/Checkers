@@ -60,7 +60,7 @@ namespace CheckersLogic {
 		
 
 		public Tile tile(){
-			return GameManager.manager.gameBoard.getTile(row,col);
+			return Board.gameBoard.getTile(row,col);
 		}
 	}
 

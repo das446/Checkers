@@ -2,60 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Checkers;
 using Checkers.Network;
-using UnityEngine;
 
 namespace CheckersLogic {
-  public class Board : MonoBehaviour {
+  public class Board {
     public Tile[, ] board = new Tile[8, 8];
-    public TileDisplay[, ] boardDisplay = new TileDisplay[8, 8];
+
     public Position lastMovedPiece;
     public Move lastMove;
 
-    public GameObject turnMarker;
-
-    public DisplayPiece emptyPiece;
-
     public List<Move> currentMoves;
+
+    public static Board gameBoard;
 
     public Piece lastMoved() {
       if (lastMove == null) { return new Piece(0, 0, Piece.PieceType.INVALID); }
       return board[lastMovedPiece.row, lastMovedPiece.col].getPiece();
     }
 
-    void Start() {
-      Invoke("LateStart", 1);
-    }
-
-    void LateStart() {
-
-      foreach (TileDisplay t in boardDisplay) {
-        //White
-        if (t.row == 0 && (t.col % 2 == 1)) {
-          boardDisplay[t.row, t.col].MakePiece(Piece.PieceType.WHITE);
-
-        } else if (t.row == 1 && (t.col % 2 == 0)) {
-          boardDisplay[t.row, t.col].MakePiece(Piece.PieceType.WHITE);
-        } else if (t.row == 2 && (t.col % 2 == 1)) {
-          boardDisplay[t.row, t.col].MakePiece(Piece.PieceType.WHITE);
-        }
-        //RED
-        else if (t.row == 5 && (t.col % 2 == 0)) {
-          boardDisplay[t.row, t.col].MakePiece(Piece.PieceType.RED);
-        } else if (t.row == 6 && (t.col % 2 == 1)) {
-          boardDisplay[t.row, t.col].MakePiece(Piece.PieceType.RED);
-        } else if (t.row == 7 && (t.col % 2 == 0)) {
-          boardDisplay[t.row, t.col].MakePiece(Piece.PieceType.RED);
-        } else {
-          boardDisplay[t.row, t.col].MakePiece(Piece.PieceType.EMPTY);
-        }
-
-      }
-
-    }
-
     public void resetBoard() {
+      
       for (int row = 0; row < 8; row++) {
         for (int col = 0; col < 8; col++) {
           board[row, col] = new Tile(row, col, Piece.PieceType.INVALID);
@@ -78,6 +44,7 @@ namespace CheckersLogic {
           } else {
             board[row, col] = new Tile(row, col, Piece.PieceType.EMPTY);
           }
+
         }
       }
     }
@@ -87,13 +54,6 @@ namespace CheckersLogic {
         return new Tile(col, row, Piece.PieceType.INVALID);
       }
       return board[row, col];
-    }
-
-    public TileDisplay getTileDisplay(int row, int col) {
-      if (row < 0 || row > 7 || col < 0 || col > 7) {
-        return null;
-      }
-      return boardDisplay[row, col];
     }
 
     public Piece.PieceType getColor(Piece piece) {
@@ -112,28 +72,24 @@ namespace CheckersLogic {
       if (row < 0 || row > 7 || col < 0 || col > 7) {
         return new Piece(row, col, Piece.PieceType.INVALID);
       }
-      return board[row, col].getPiece();
+      Tile t = board[row, col];
+      Piece p = t.getPiece();
+      return p;
     }
 
     public void applyMove(Move move) {
-      TileDisplay fromTile = getTileDisplay(move.from.row, move.from.col);
-      TileDisplay toTile = getTileDisplay(move.to.row, move.to.col);
-      NetworkManager.debug("From = " + move.from.row + "," + move.from.col);
 
-      DisplayPiece piece = GetDisplayPiece(move.from.row, move.from.col);
-      NetworkManager.debug("Piece = " + piece.name);
-      piece.transform.position = toTile.transform.position + (Vector3.up * 3);
+      Tile fromTile = getTile(move.from.row, move.from.col);
+      Tile toTile = getTile(move.to.row, move.to.col);
 
-      toTile.SetPiece(piece.piece);
+      Piece piece = fromTile.getPiece();
+
+      toTile.SetPiece(piece);
       fromTile.SetPiece(new Piece(move.from.row, move.from.col, Piece.PieceType.EMPTY));
       piece.row = toTile.row;
       piece.col = toTile.col;
-      
-      piece.piece.row = toTile.row;
-      piece.piece.col = toTile.col;
 
       if (move.jump) {
-        NetworkManager.debug("Piece = " + piece.row + "," + piece.col);
         Piece jp = getPiece(move.over.row, move.over.col);
         RemovePiece(jp);
 
@@ -145,38 +101,31 @@ namespace CheckersLogic {
       currentMoves = new List<Move>();
 
       //Make this dependant on must jump
-      UpdateGlow(new List<Tile>());
 
     }
 
     public void switchPlayer(Player p) {
       if (p.name == "Player1") {
-        GameManager.manager.currentPlayer = GameManager.manager.player2;
-        turnMarker.GetComponent<Renderer>().material.color = Color.white;
+        Player.currentPlayer = Player.player2;
       } else {
-        GameManager.manager.currentPlayer = GameManager.manager.player1;
-        turnMarker.GetComponent<Renderer>().material.color = Color.red;
+        Player.currentPlayer =Player.player1;
 
       }
     }
 
-    private void KingPiece(Position pos) {
+    public void KingPiece(Position pos) {
       Piece p = getPiece(pos.row, pos.col);
       if (p.type == Piece.PieceType.RED && pos.row == 0) {
         //Debug.Log("Kinged RED");
         getTile(pos.row, pos.col).SetPiece(new KingPiece(pos.row, pos.col, Piece.PieceType.RED_KING));
-        GetDisplayPiece(pos.row, pos.col).KingMe();
         //Debug.Log("TYPE" + getPiece(pos.row, pos.col).type);
       } else if (p.type == Piece.PieceType.WHITE && pos.row == 7) {
         //Debug.Log("Kinged WHITE");
         getTile(pos.row, pos.col).SetPiece(new KingPiece(pos.row, pos.col, Piece.PieceType.WHITE_KING));
-        GetDisplayPiece(pos.row, pos.col).KingMe();
       }
     }
 
     public void RemovePiece(Piece p) {
-      DisplayPiece dp = GetDisplayPiece(p.row, p.col);
-      dp.Remove();
       setPiece(p.row, p.col, Piece.PieceType.EMPTY);
     }
 
@@ -227,19 +176,6 @@ namespace CheckersLogic {
       moves.AddRange(newMoves);
     }
 
-    public void UpdateGlow(List<Tile> tiles) {
-      for (int x = 0; x < 8; x++) {
-        for (int y = 0; y < 8; y++) {
-          if (tiles.Contains(board[x, y])) {
-            boardDisplay[x, y].GetComponent<Renderer>().material.color = Color.green;
-          } else if ((x + y) % 2 == 0) {
-            boardDisplay[x, y].GetComponent<Renderer>().material.color = Color.white;
-          } else {
-            boardDisplay[x, y].GetComponent<Renderer>().material.color = Color.black;
-          }
-        }
-      }
-    }
     public string Print() {
       string board = "";
       for (int row = 0; row < 8; row++) {
@@ -269,10 +205,6 @@ namespace CheckersLogic {
       return board;
     }
 
-    DisplayPiece GetDisplayPiece(int row, int col){
-      return DisplayPiece.Get(row,col);
-      //return GameObject.Find("Piece,"+row+","+col).GetComponent<DisplayPiece>();
-    }
   }
 
 }

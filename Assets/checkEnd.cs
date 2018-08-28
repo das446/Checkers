@@ -2,7 +2,7 @@ using CheckersLogic;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Checkers;
 public class checkEnd : MonoBehaviour {
 
     public GameObject p1, p2;
@@ -13,7 +13,7 @@ public class checkEnd : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        b = board.GetComponent<Board>();
+        b = Board.gameBoard;
 	}
 	
 	// Update is called once per frame
