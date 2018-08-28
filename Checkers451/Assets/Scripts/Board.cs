@@ -53,18 +53,19 @@ namespace CheckersLogic {
       if (row < 0 || row > 7 || col < 0 || col > 7) {
         return new Tile(col, row, Piece.PieceType.INVALID);
       }
+      if (board[row, col] == null)
+            {
+                board[row, col] = new Tile(row, col);
+            }
       return board[row, col];
     }
 
-    public Piece.PieceType getColor(Piece piece) {
-      return piece.getColor();
-    }
-
-    public void setPiece(int row, int col, Piece piece) {
-      board[row, col].SetPiece(piece);
-    }
 
     public void setPiece(int row, int col, Piece.PieceType piece) {
+            if (board[row, col] == null)
+            {
+                board[row, col] = new Tile(row, col, piece);
+            }
       board[row, col].SetPiece(piece);
     }
 
@@ -72,6 +73,10 @@ namespace CheckersLogic {
       if (row < 0 || row > 7 || col < 0 || col > 7) {
         return new Piece(row, col, Piece.PieceType.INVALID);
       }
+      if(board[row, col] == null)
+            {
+                board[row, col] = new Tile(row, col, Piece.PieceType.EMPTY);
+            }
       Tile t = board[row, col];
       Piece p = t.getPiece();
       return p;
@@ -176,34 +181,7 @@ namespace CheckersLogic {
       moves.AddRange(newMoves);
     }
 
-    public string Print() {
-      string board = "";
-      for (int row = 0; row < 8; row++) {
-        board += "\n   ---------------------------------\n " + (8 - row) + " |";
-        for (int col = 0; col < 8; col++) {
-          switch (this.board[row, col].getPiece().type) {
-            case Piece.PieceType.RED:
-              board += " b |";
-              break;
-            case Piece.PieceType.RED_KING:
-              board += " B |";
-              break;
-            case Piece.PieceType.WHITE:
-              board += " w |";
-              break;
-            case Piece.PieceType.WHITE_KING:
-              board += " W |";
-              break;
-            default:
-              board += "   |";
-              break;
-          }
-        }
-      }
-      board += "\n   ---------------------------------";
-      board += "\n   | h | g | f | e | d | c | b | a |";
-      return board;
-    }
+    
 
   }
 

@@ -56,7 +56,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\BoardTests.cs" />
     <Compile Include="Assets\Scripts\MoveTests.cs" />
+    <Compile Include="Assets\Scripts\PieceTests.cs" />
     <Compile Include="Assets\Scripts\TileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
