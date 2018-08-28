@@ -18,12 +18,6 @@ namespace CheckersLogic {
 			this.piece =  new Piece(row, col, Piece.PieceType.EMPTY);
 		}
 		
-		public Tile(int row,int col, Piece piece){
-			this.row = row;
-			this.col = col;
-			this.piece = piece;
-		}
-		
 
 		public Tile(int row, int col, Piece.PieceType type) {
 			this.row = row;
@@ -32,9 +26,6 @@ namespace CheckersLogic {
 		}
 
 		public Piece.PieceType GetPieceType() {
-			if (piece == null) {
-				return Piece.PieceType.EMPTY;
-			}
 			return piece.type;
 		}
 
@@ -47,13 +38,11 @@ namespace CheckersLogic {
 		}
 
 		public Piece getPiece() {
-			if (piece == null) {
-				return new Piece(row, col, Piece.PieceType.EMPTY);
-			}
 			return piece;
 		}
 
 		public void RemovePiece() {
+            SetPiece(Piece.PieceType.EMPTY);
 			tile().SetPiece(new Piece(row, col, Piece.PieceType.EMPTY));
 		}
 

@@ -6,9 +6,5 @@ namespace CheckersLogic {
       this.row = row;
       this.col = col;
     }
-
-    public bool equals(Position other) {
-      return other.row == this.row && other.col == this.col;
-    }
   }
 }
