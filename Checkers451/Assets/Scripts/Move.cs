@@ -17,10 +17,6 @@ namespace CheckersLogic {
       jump = true;
     }
 
-    public bool equals(Move other) {
-      return this.from.Equals(other.from) && this.to.Equals(other.to);
-    }
-
     /// <summary>
     /// Format MoveJ|fr|fc|tr|tc|jc|jr
     /// </summary>
@@ -54,7 +50,7 @@ namespace CheckersLogic {
     }
 
     public override string ToString() {
-      return "" + (char) ('h' - from.col) + (from.row + 1) + " " + (char) ('h' - to.col) + (to.row + 1);
+            return NetworkString();
     }
   }
 }
